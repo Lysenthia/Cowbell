@@ -6,11 +6,15 @@ from public import website
 
 @website.route('/', methods=['GET', 'POST'])
 def index():
+	error = None
 	if request.method == 'POST':
 		notes = request.form.get('notes')
-		return redirect('/synth/{}'.format(notes))
+		if notes == "":
+			error = "Please enter a number."
+		else:
+			return redirect('/synth/{}'.format(notes))
 	else:
-		return render_template('index.html')
+		return render_template('index.html', error=error)
 
 @website.route('/synth/<notes>')
 def synth(notes = None):

@@ -76,6 +76,10 @@ a {
 	float:left; 
 }
 
+#sliders {
+	padding-top: 50px;
+}
+
 .individualslider{
 	display: inline;
 }
