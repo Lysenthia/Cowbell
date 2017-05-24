@@ -1,0 +1,21 @@
+{% extends 'base-template.html' %}
+
+{% block content %}
+
+<h2 style="text-align: center;">THE SYNTH</h2>
+
+<input type="button" value="Play" onclick="msg()" class="controlbuttons" />
+<input type="button" value="Stop" onclick="msg()" class="controlbuttons" />
+<br>
+<div id="sliders">
+	{% for i in range(notes|int) %}
+	<div class="individualslider">
+		<input type="range" orient="vertical" step="1" max="8" min="0" style="padding: 0 2.3%;" name="slider{{i}}" />
+		<input type="button" value="Link" onclick="msg()" class="synthbuttons" name="linkbutton{{i}}" />
+
+	</div>
+	{% endfor %}
+
+</div>
+
+{% endblock %}
