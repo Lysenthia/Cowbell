@@ -3,6 +3,8 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from public import website
+from generator import make_wav
+import os
 
 
 #HOMEPAGE/NOTE AMOUNT ENTER
@@ -54,5 +56,12 @@ def exported():
 
 	#Convert noteValues to string
 	sNoteValues = ''.join(noteValues)
-	return sNoteValues
-	#return render_template('exported.html')
+	#Create WAV file from the string version of noteValues
+	wavFileName = make_wav(sNoteValues)
+	#Return the exported page and attach the filename of the exported WAV file
+	return render_template('exported.html', wavFileName = wavFileName)
+
+@website.route('/return-file/<wavfilename>')
+def return_fule(wavfilename):
+	directory = os.getcwd()
+	return send_from_directory(directory, wavfilename, attachment_filename=wavfilename, as_attachment=True, mimetype='audio/wav')
