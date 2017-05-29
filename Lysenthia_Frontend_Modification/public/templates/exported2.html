@@ -1,0 +1,9 @@
+{% extends 'base-template.html' %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Your file has been exported idk if it was successful or not...lol</h2>
+<form action="/return-file/<outfile_name>" style="display: inline block; text-align:center;padding-bottom: 20px;">
+    <input type="submit" name="download" value="Download File">
+</form>
+{% endblock %}

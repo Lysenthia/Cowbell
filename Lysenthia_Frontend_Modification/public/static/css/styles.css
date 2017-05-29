@@ -1,0 +1,98 @@
+/*
+COLOUR PALETTE
+
+$color1: rgba(102, 84, 94, 1);
+$color2: rgba(163, 145, 147, 1);
+$color3: rgba(170, 111, 115, 1);
+$color4: rgba(238, 169, 144, 1);
+$color5: rgba(246, 224, 181, 1);*/
+
+body {
+	background: url("/static/images/escheresque.png");
+	font-family: 'Ubuntu', sans-serif;
+}
+
+#wrapper {
+	margin: 0 auto;
+	width: 90%;
+	border: 0 solid;
+	border-radius: 25px;
+}
+
+header {
+	background: rgba(102, 84, 94, 1);
+	width: 100%;
+	height: 100px;
+	text-align: center;
+	font-family: impact;
+	font-size: 20px;
+	padding-top: 5px;
+	overflow: hidden;
+	border: 0 solid;
+	border-top-left-radius: 25px;
+	border-top-right-radius: 25px;
+}
+
+header a:visited {
+	color: rgba(246, 224, 181, 1);
+}
+
+header h1 {
+
+	text-shadow: 3px 2px rgb(170, 111, 115);
+}
+
+footer {
+	width: 100%;
+	height: 100px;
+	background: rgba(102, 84, 94, 1);
+	overflow: hidden;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 50px;
+	border: 0 solid;
+	border-bottom-left-radius: 25px;
+	border-bottom-right-radius: 25px;
+}
+
+.page-content {
+	background: rgba(163, 145, 147, 1);
+	width: 100%;
+	overflow: hidden;
+	/*display: flex;*/
+}
+
+.page-content * {
+	width: 100%;
+}
+
+a {
+	text-decoration: none;
+	display: block;
+}
+
+.controlbuttons {     
+	width: 50%;     
+	float:left; 
+}
+
+#sliders {
+	padding-top: 50px;
+}
+
+.individualslider{
+	display: inline;
+}
+
+input[type=range][orient=vertical] {
+	writing-mode: bt-lr; /* IE */
+    -webkit-appearance: slider-vertical; /* WebKit */
+    width: 8px;
+    height: 175px;
+    display: inherit;
+}
+
+.synthbuttons {
+	width: 50px;
+	display: inherit;
+}

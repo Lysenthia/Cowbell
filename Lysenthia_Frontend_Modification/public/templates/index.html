@@ -1,0 +1,19 @@
+{% extends 'base-template.html' %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Enter the amount of notes you wish to enter here.</h2>
+
+{% with messages = get_flashed_messages() %}
+	{% if messages %}
+		{{ message }}
+	{% endif %}
+{% endwith %}
+
+<form method="POST" style="display: inline block; text-align:center;padding-bottom: 20px;">
+	<input type="number" name="notes" style="width: 10%;">
+	<input type="submit" value="Continue" style="width: 5%;">
+</form>
+
+
+{% endblock %}
