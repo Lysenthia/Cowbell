@@ -40,16 +40,19 @@ def exported():
 	noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
 	sliderValues = {}
 	noteValues = []
+	sliderKeys = []
 	#Get the submitted slider values from the previous page
 	rawSliderValues = request.values if request.method == "GET" else request.values
 
 	#Extract the data from rawSliderValues and add it to sliderValues (Also get rid of "exporttowav")
 	for key in rawSliderValues:
 		if key != "exporttowav":
-			sliderValues[key] = rawSliderValues[key]
+			temp_key = int(key[6:])
+			sliderValues[temp_key] = rawSliderValues[key]
 
 	#Create a sorted list of the keys from slider values
 	sliderKeys = sorted(sliderValues)
+	print(sliderKeys)
 	###  Get each note value from the noteDict in order using the sorted sliderKeys 
 	###  list to call values from sliderValues in the original order
 	for item in sliderKeys:
