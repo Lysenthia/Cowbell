@@ -33,14 +33,26 @@ def synth(notes = None):
 #DISPLAYS WHEN WAV EXPORTED
 @website.route('/exported', methods=['GET', 'POST'])
 def exported():
+	#Dictionary of the slider values that correspond to the note values
 	noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
+	sliderValues = {}
 	noteValues = []
-	sliderValues = request.values if request.method == "GET" else request.values
-	#response = "Form Contents <pre>%s</pre>" % "<br/>\n".join(["%s:%s" % item for item in formData.items()] )
-	#sliderValues.pop('exporttowav', None)
-	#THERE ARE MAJOR ERRORS HERE FIX IT
-	for value in sliderValues:
-		noteValues.append(noteDict[value])
-	print(sliderValues)
-	return "hi"
+	#Get the submitted slider values from the previous page
+	rawSliderValues = request.values if request.method == "GET" else request.values
+
+	#Extract the data from rawSliderValues and add it to sliderValues (Also get rid of "exporttowav")
+	for key in rawSliderValues:
+		if key != "exporttowav":
+			sliderValues[key] = rawSliderValues[key]
+
+	#Create a sorted list of the keys from slider values
+	sliderKeys = sorted(sliderValues)
+	###  Get each note value from the noteDict in order using the sorted sliderKeys 
+	###  list to call values from sliderValues in the original order
+	for item in sliderKeys:
+		noteValues.append(noteDict[int(sliderValues[item])])
+
+	#Convert noteValues to string
+	sNoteValues = ''.join(noteValues)
+	return sNoteValues
 	#return render_template('exported.html')
