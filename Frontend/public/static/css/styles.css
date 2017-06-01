@@ -8,7 +8,7 @@ $color4: rgba(238, 169, 144, 1);
 $color5: rgba(246, 224, 181, 1);*/
 
 body {
-	background: url("/static/images/escheresque.png");
+	background: url("/static/images/greenarrows.jpg");
 	font-family: 'Ubuntu', sans-serif;
 }
 
@@ -17,6 +17,7 @@ body {
 	width: 90%;
 	border: 0 solid;
 	border-radius: 25px;
+	text-shadow: 0 0 50px blue;
 }
 
 header {
@@ -66,13 +67,18 @@ footer {
 	width: 100%;
 }
 
+.error {
+	text-align: center;
+	color: red;
+}
+
 a {
 	text-decoration: none;
 	display: block;
 }
 
-.controlbuttons {     
-	width: 50%;     
+.controlbuttons {
+	width: 50%;
 	float:left; 
 }
 
@@ -85,7 +91,6 @@ a {
 }
 
 input[type=range][orient=vertical] {
-	writing-mode: bt-lr; /* IE */
     -webkit-appearance: slider-vertical; /* WebKit */
     width: 8px;
     height: 175px;

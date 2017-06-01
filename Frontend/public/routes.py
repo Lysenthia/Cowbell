@@ -3,6 +3,7 @@ from flask import render_template
 from flask import request
 from flask import redirect
 from flask import send_from_directory
+from flask import flash
 from public import website
 from generator import make_wav
 import os
@@ -14,10 +15,14 @@ def index():
 	error = None
 	if request.method == 'POST':
 		noteamt = request.form.get('notes')
+		##################################
 		# THIS MAKES AN ERROR FIX IT UP AT SOME POINT PLZZ
+		##################################
 		if noteamt == "":
 			error = "Please enter a number."
+			return render_template('index.html', error=error)
 		else:
+
 			return redirect('/synth/{}'.format(noteamt))
 	else:
 		return render_template('index.html', error=error)
