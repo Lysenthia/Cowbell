@@ -7,11 +7,13 @@
 <input type="button" value="Play" onclick="msg()" class="controlbuttons" />
 <input type="button" value="Stop" onclick="msg()" class="controlbuttons" />
 
+
+
 <form id="synthform" action="/exported" method="POST">
 	<div id="sliders">
 		{% for i in range(notes|int) %}
 		<div class="individualslider">
-			<input type="range" orient="vertical" step="1" max="7" min="0" style="padding: 0 2.3%;" name="slider{{i}}" />
+			<input type="range" orient="vertical" step="1" max="7" min="0" value="0" style="padding: 0 2.3%;" name="slider{{i}}" />
 			{% if i != notes|int - 1 %}
 			<input type="button" value="Link" onclick="change(this.name)" class="synthbuttons" name="linkbutton{{i}}" />
 			{% endif %}

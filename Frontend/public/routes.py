@@ -15,15 +15,12 @@ def index():
 	error = None
 	if request.method == 'POST':
 		noteamt = request.form.get('notes')
-		##################################
-		# THIS MAKES AN ERROR FIX IT UP AT SOME POINT PLZZ
-		##################################
-		if noteamt == "":
-			error = "Please enter a number."
+		if noteamt == "" or noteamt == "0":
+			error = "Please enter a non-zero number."
 			return render_template('index.html', error=error)
 		else:
-
-			return redirect('/synth/{}'.format(noteamt))
+			noteamt = abs(int(noteamt))
+			return redirect('/synth/{}'.format(str(noteamt)))
 	else:
 		return render_template('index.html', error=error)
 
@@ -71,6 +68,6 @@ def exported():
 	return render_template('exported.html', wavFileName = wavFileName)
 
 @website.route('/return-file/<wavfilename>')
-def return_fule(wavfilename):
+def return_file(wavfilename):
 	directory = os.getcwd()
 	return send_from_directory(directory, wavfilename, attachment_filename=wavfilename, as_attachment=True, mimetype='audio/wav')
