@@ -10,6 +10,7 @@ $color5: rgba(246, 224, 181, 1);*/
 body {
 	background: url("/static/images/space.jpg");
 	font-family: 'Ubuntu', sans-serif;
+	color: white;
 }
 
 #wrapper {
@@ -17,12 +18,12 @@ body {
 	width: 90%;
 	border: 0 solid;
 	border-radius: 25px;
-	box-shadow: 0px 0px 15px orange;
+	box-shadow: 0px 0px 15px rgb(250, 250, 255);
 	/*text-shadow: 0 0 50px blue;*/
 }
 
 header {
-	background: rgba(102, 84, 94, 1);
+	background: rgba(20, 20, 35, 0.9);
 	width: 100%;
 	height: 100px;
 	text-align: center;
@@ -41,13 +42,13 @@ header a:visited {
 
 header h1 {
 
-	text-shadow: 3px 2px rgb(170, 111, 115);
+	text-shadow: 3px 2px 0px rgb(170, 111, 115);
 }
 
 footer {
 	width: 100%;
 	height: 100px;
-	background: rgba(102, 84, 94, 1);
+	background: rgba(20, 20, 35, 0.9);
 	overflow: hidden;
 	text-align: center;
 	vertical-align: middle;
@@ -58,7 +59,7 @@ footer {
 }
 
 .page-content {
-	background: rgba(163, 145, 147, 1);
+	background: rgba(50, 50, 70, 0.8);
 	width: 100%;
 	overflow: hidden;
 	padding-left: 5px;
