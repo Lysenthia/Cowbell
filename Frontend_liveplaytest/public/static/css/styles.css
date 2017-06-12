@@ -111,3 +111,19 @@ input[type=range][orient=vertical] {
 	width: 50px;
 	display: inherit;
 }
+
+#downloadButton {
+	color: #0b2398;
+	background-color: #A5A5FF;
+	text-align: center;
+	width: 20%;
+	margin: 0 auto;
+	height: 40px;
+	line-height: 40px;
+	border: 2px solid;
+	border-radius: 4px;
+}
+
+#downloadButton:hover {
+	color: orange;
+}
