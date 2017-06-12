@@ -2,6 +2,7 @@ import sqlite3
 INFILE = "saved_song.cowbell"
 try:
     with sqlite3.connect(INFILE) as db:
+        cursor = db.cursor()
         cursor.execute("select SongNotes from song_data")
         song_notes = cursor.fetchall()
         song_notes = "".join(map("".join, song_notes))
