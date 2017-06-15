@@ -65,23 +65,31 @@ def exported():
 	sNoteValues = ''.join(noteValues)
 	#Create WAV file from the string version of noteValues
 	song = Song(sNoteValues)
-	wavFileName = song.make_wav()
+	wavFileName = song.make_wav() 
+	databasename = song.write_to_database()
 	#Return the exported page and attach the filename of the exported WAV file
-	return render_template('exported.html', wavFileName = wavFileName)
+	return render_template('exported.html', wavFileName=wavFileName, databasename=databasename)
 
 @website.route('/return-file/<wavfilename>')
 def return_file(wavfilename):
-	directory = os.getcwd()
+	directory = '{}/wav_outfiles/'.format(os.getcwd())
 	return send_from_directory(directory, wavfilename, attachment_filename=wavfilename, as_attachment=True, mimetype='audio/wav')
 	
 @website.route('/uploader', methods = ['GET', 'POST'])
 def uploader_file():
    if request.method == 'POST':
+      noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
       f = request.files['file']
       f.save(secure_filename(f.filename))
       song_read = Song()
       song_read.read_from_database(f.filename)
       notes_no = len(song_read.notes_to_play) / 2
       notes_to_set = [song_read.notes_to_play[i:i+2] for i in range(0, len(song_read.notes_to_play) - 1, 2)]
-      print(notes_to_set)
-   return render_template('synth_uploaded.html', notes_no=notes_no, notes_to_set=notes_to_set)
+      values_to_set = [noteDict[i] for i in notes_to_set]
+      print(values_to_set)
+   return render_template('synth_uploaded.html', notes_no=notes_no, values_to_set=values_to_set)
+
+@website.route('/return-db/<databasename>')
+def return_db(databasename):
+	directory = '{}/database_outfiles/'.format(os.getcwd())
+	return send_from_directory(directory, databasename, attachment_filename=databasename, as_attachment=True)

@@ -7,10 +7,12 @@ class Song:
         self.UNIT_LENGTH = 2
         self.notes_to_play = notes_to_play
         self.creation_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+        self.DB_DIRECTORY = 'database_outfiles/'
+        self.WAV_DIRECTORY = 'wav_outfiles/'
         if outfile_name == None:
-            self.outfile_name = "music{}.wav".format(self.creation_date)
+            self.outfile_name = "{}music{}.wav".format(self.WAV_DIRECTORY,self.creation_date)
         else:
-            self.outfile_name = "{}.wav".format(outfile_name)
+            self.outfile_name = "{}{}.wav".format(self.WAV_DIRECTORY,outfile_name)
         self.outfile = str(self.outfile_name)
         self.author_name = author_name
         
@@ -35,16 +37,18 @@ class Song:
         """ Writes the song to an SQLite3 Database """
         import sqlite3
         database_name = "music{}.cowbell".format(self.creation_date)
-        db = sqlite3.connect(database_name)
+        db = sqlite3.connect('{}{}'.format(self.DB_DIRECTORY,database_name))
         cursor = db.cursor()
         cursor.execute('''CREATE TABLE song_data
              (row_id INTEGER PRIMARY KEY, song_notes TEXT, author_name TEXT, creation_date TEXT, project_name TEXT)''')
         cursor.execute("INSERT INTO song_data VALUES (1,?,?,?,?)",(self.notes_to_play, self.author_name, self.creation_date, self.outfile_name))
         db.commit()
         db.close()
+        return database_name
 
     def read_from_database(self, database_name):
-        """ This might need to be moved to somewhere else. (As the song has already been constructed) """  
+        """ This might need to be moved to somewhere else. (As the song has already been constructed) """
+        import os
         import sqlite3
         db = sqlite3.connect(database_name)
         cursor = db.cursor()
@@ -62,3 +66,5 @@ class Song:
         self.outfile_name = "".join(map("".join, self.outfile_name))
         self.outfile = str(self.outfile_name)
         db.close()
+        os.remove(database_name)
+        
