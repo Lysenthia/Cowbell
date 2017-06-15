@@ -1,15 +1,9 @@
-/*
-COLOUR PALETTE
 
-$color1: rgba(102, 84, 94, 1);
-$color2: rgba(163, 145, 147, 1);
-$color3: rgba(170, 111, 115, 1);
-$color4: rgba(238, 169, 144, 1);
-$color5: rgba(246, 224, 181, 1);*/
 
 body {
-	background: url("/static/images/escheresque.png");
+	background: url("/static/images/space.jpg");
 	font-family: 'Ubuntu', sans-serif;
+	color: white;
 }
 
 #wrapper {
@@ -17,10 +11,12 @@ body {
 	width: 90%;
 	border: 0 solid;
 	border-radius: 25px;
+	box-shadow: 0px 0px 15px rgb(250, 250, 255);
+	/*text-shadow: 0 0 50px blue;*/
 }
 
 header {
-	background: rgba(102, 84, 94, 1);
+	background: rgba(20, 20, 35, 0.9);
 	width: 100%;
 	height: 100px;
 	text-align: center;
@@ -31,21 +27,28 @@ header {
 	border: 0 solid;
 	border-top-left-radius: 25px;
 	border-top-right-radius: 25px;
+
 }
 
-header a:visited {
-	color: rgba(246, 224, 181, 1);
-}
 
 header h1 {
+	color: #5f6be4;
+	text-shadow: 3px 2px 0px #000e84;
+	vertical-align: top;
+	display: inline-block;
+}
 
-	text-shadow: 3px 2px rgb(170, 111, 115);
+#headercontents {
+	margin: 0 auto;
+	height: 100%;
+	width: 500px;
+
 }
 
 footer {
 	width: 100%;
 	height: 100px;
-	background: rgba(102, 84, 94, 1);
+	background: rgba(20, 20, 35, 0.9);
 	overflow: hidden;
 	text-align: center;
 	vertical-align: middle;
@@ -56,9 +59,12 @@ footer {
 }
 
 .page-content {
-	background: rgba(163, 145, 147, 1);
+	background: rgba(50, 50, 70, 0.8);
 	width: 100%;
 	overflow: hidden;
+	padding-left: 5px;
+	padding-right: 5px;
+	box-sizing: border-box;
 	/*display: flex;*/
 }
 
@@ -66,18 +72,28 @@ footer {
 	width: 100%;
 }
 
+.error {
+	text-align: center;
+	color: red;
+}
+
 a {
 	text-decoration: none;
 	display: block;
 }
 
-.controlbuttons {     
-	width: 50%;     
+.controlbuttons {
+	width: 50%;
 	float:left; 
 }
 
-#sliders {
+#synthform {
 	padding-top: 50px;
+}
+
+#sliders {
+	overflow: auto;
+	white-space: nowrap;
 }
 
 .individualslider{
@@ -85,7 +101,6 @@ a {
 }
 
 input[type=range][orient=vertical] {
-	writing-mode: bt-lr; /* IE */
     -webkit-appearance: slider-vertical; /* WebKit */
     width: 8px;
     height: 175px;
