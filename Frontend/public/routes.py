@@ -5,7 +5,7 @@ from flask import redirect
 from flask import send_from_directory
 from flask import flash
 from public import website
-from generator import make_wav
+from generator import Song
 import os
 
 
@@ -63,7 +63,8 @@ def exported():
 	#Convert noteValues to string
 	sNoteValues = ''.join(noteValues)
 	#Create WAV file from the string version of noteValues
-	wavFileName = make_wav(sNoteValues)
+	song = Song(sNoteValues)
+	wavFileName = song.make_wav()
 	#Return the exported page and attach the filename of the exported WAV file
 	return render_template('exported.html', wavFileName = wavFileName)
 
