@@ -14,6 +14,10 @@
 	<input type="number" name="notes" style="width: 10%;">
 	<input type="submit" value="Continue" style="width: 75px;">
 </form>
+<form action = "http://localhost:5000/uploader" method = "POST" enctype = "multipart/form-data">
+    <input type = "file" name = "file" style="align: center"/>
+    <input type = "submit"/>
+</form>
 
 
 {% endblock %}

@@ -4,6 +4,7 @@ from flask import request
 from flask import redirect
 from flask import send_from_directory
 from flask import flash
+from werkzeug import secure_filename
 from public import website
 from generator import Song
 import os
@@ -72,3 +73,15 @@ def exported():
 def return_file(wavfilename):
 	directory = os.getcwd()
 	return send_from_directory(directory, wavfilename, attachment_filename=wavfilename, as_attachment=True, mimetype='audio/wav')
+	
+@website.route('/uploader', methods = ['GET', 'POST'])
+def uploader_file():
+   if request.method == 'POST':
+      f = request.files['file']
+      f.save(secure_filename(f.filename))
+      song_read = Song()
+      song_read.read_from_database(f.filename)
+      notes_no = len(song_read.notes_to_play) / 2
+      notes_to_set = [song_read.notes_to_play[i:i+2] for i in range(0, len(song_read.notes_to_play) - 1, 2)]
+      print(notes_to_set)
+   return render_template('synth_uploaded.html', notes_no=notes_no, notes_to_set=notes_to_set)
