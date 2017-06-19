@@ -65,14 +65,19 @@ def exported():
 	sNoteValues = ''.join(noteValues)
 	#Create WAV file from the string version of noteValues
 	song = Song(sNoteValues)
-	wavFileName = song.make_wav() 
+	wavFileName = song.make_wav()
+	wavFileName = wavFileName.replace('wav_outfiles/','')
 	databasename = song.write_to_database()
 	#Return the exported page and attach the filename of the exported WAV file
 	return render_template('exported.html', wavFileName=wavFileName, databasename=databasename)
 
 @website.route('/return-file/<wavfilename>')
 def return_file(wavfilename):
-	directory = '{}/wav_outfiles/'.format(os.getcwd())
+	directory = '{}{}'.format(os.getcwd(),'/wav_outfiles/')
+	print()
+	print(wavfilename)
+	print(directory)
+	print()
 	return send_from_directory(directory, wavfilename, attachment_filename=wavfilename, as_attachment=True, mimetype='audio/wav')
 	
 @website.route('/uploader', methods = ['GET', 'POST'])

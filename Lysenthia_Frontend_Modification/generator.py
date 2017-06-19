@@ -13,7 +13,7 @@ class Song:
             self.outfile_name = "{}music{}.wav".format(self.WAV_DIRECTORY,self.creation_date)
         else:
             self.outfile_name = "{}{}.wav".format(self.WAV_DIRECTORY,outfile_name)
-        self.outfile = str(self.outfile_name)
+        self.outfile = str('{}'.format(self.outfile_name))
         self.author_name = author_name
         
     def make_wav(self):
