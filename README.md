@@ -5,6 +5,5 @@ So basically it runs by running the batch file and if it doesn't give any errors
 If that doesn't work however, you'll need to install some python dependencies...
 <ul>
 <li>Flask</li>
-<li>Something else</li>
-<li>Idk you'll have to ask Hamish</li>
+<li><a href="https://github.com/jiaaro/pydub">Pydub</a></li>
 </ul>
