@@ -13,6 +13,7 @@ class Song:
             self.outfile_name = "{}music{}.wav".format(self.WAV_DIRECTORY,self.creation_date)
         else:
             self.outfile_name = "{}{}.wav".format(self.WAV_DIRECTORY,outfile_name)
+        self.database_name = "music{}.cowbell".format(self.creation_date)
         self.outfile = str('{}'.format(self.outfile_name))
         self.author_name = author_name
         
@@ -31,20 +32,20 @@ class Song:
     def garbage(self):
         """ Deletes the file (Hopefully this will be automated one day) """
         import os
-        os.remove(self.outfile)
+        os.remove("{}{}".format(self.WAV_DIRECTORY, self.outfile))
+        os.remove("{}{}".format(self.DB_DIRECTORY, self.database_name))
         
     def write_to_database(self):
         """ Writes the song to an SQLite3 Database """
         import sqlite3
-        database_name = "music{}.cowbell".format(self.creation_date)
-        db = sqlite3.connect('{}{}'.format(self.DB_DIRECTORY,database_name))
+        db = sqlite3.connect('{}{}'.format(self.DB_DIRECTORY,self.database_name))
         cursor = db.cursor()
         cursor.execute('''CREATE TABLE song_data
              (row_id INTEGER PRIMARY KEY, song_notes TEXT, author_name TEXT, creation_date TEXT, project_name TEXT)''')
         cursor.execute("INSERT INTO song_data VALUES (1,?,?,?,?)",(self.notes_to_play, self.author_name, self.creation_date, self.outfile_name))
         db.commit()
         db.close()
-        return database_name
+        return self.database_name
 
     def read_from_database(self, database_name):
         """ This might need to be moved to somewhere else. (As the song has already been constructed) """
