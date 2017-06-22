@@ -30,9 +30,6 @@ def index():
 #SYNTH PAGE
 @website.route('/synth/<notes>')#, methods=['GET', 'POST'])
 def synth(notes = None):
-	#if request.method == 'POST':
-	#	print("Sup")
-	#else:
 	return render_template('synth.html', notes=notes)
 
 
