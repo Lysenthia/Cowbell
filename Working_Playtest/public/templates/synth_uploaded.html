@@ -3,14 +3,42 @@
 {% block content %}
 
 <h2 style="text-align: center;">THE SYNTH</h2>
-<script>
-//Get preview JS from synth.html
-</script>
 <form>
-	<input type="button" value="Play" onclick="msg()" class="controlbuttons" />
-	<input type="button" value="Stop" onclick="msg()" class="controlbuttons" />
+<script src='/static/js/jquery.js'></script>
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script>
+	function play_preview(){
+		var slider_values = [];
+		for (i = 0; i < document.getElementsByClassName('individualslider').length; i++) {
+			slider_values.push(document.getElementById("slider" + i).value);
+		}
+        var slider_string = slider_values.join('');
+		$.getJSON($SCRIPT_ROOT + "/preview", {
+            param_send: slider_string
+        }, function(data){
+        var audio_source = data.previewname
+		document.getElementById('preview_audio').src = audio_source;
+		preview_audio.play();
+	})}
+	window.addEventListener("DOMContentLoaded", function(event) {
+		document.getElementById("play_button").addEventListener("click", play_preview);
+	})
+</script>
+<script>
+	window.addEventListener("DOMContentLoaded", function(event) {
+		document.getElementById("stop_button").addEventListener("click", stop_preview);
+	});
+	function stop_preview(){
+		preview_audio.pause();
+		preview_audio.currentTime = 0;
+	}
+</script>
+	<input type="button" value="Play" class="controlbuttons" id="play_button"/>
+	<input type="button" value="Stop" class="controlbuttons" id="stop_button"/>
 </form>
-<!--<audio src="{{ audiofile }}"></audio>-->
+<audio id="preview_audio" src="../static/song_previews/dummy.wav" ></audio>
 
 <form id="synthform" action="/exported" method="POST">
 	<div id="sliders">
