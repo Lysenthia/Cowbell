@@ -1,0 +1,10 @@
+{% extends 'base-template.html' %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Your file has been exported idk if it was successful or not...lol</h2>
+
+<a href="/return-file/{{ wavFileName }}" id="downloadButton">Download WAV File</a>
+<a href="/return-db/{{ databasename }}" id="downloadButton">Download Cowbell Song File</a>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base-template.html' %}
+
+{% block content %}
+
+<h2 style="text-align: center;">Enter the amount of notes you wish to enter here.</h2>
+
+
+
+{% if error %}
+	<p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="POST" style="display: inline block; text-align:center;padding-bottom: 20px;">
+	<input type="number" name="notes" style="width: 10%;">
+	<input type="submit" value="Continue" style="width: 75px;">
+</form>
+<form action = "http://localhost:5000/uploader" method = "POST" enctype = "multipart/form-data">
+    <input type = "file" name = "file" style="align: center"/>
+    <input type = "submit"/>
+</form>
+
+
+{% endblock %}
