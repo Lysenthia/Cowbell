@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h2 style="text-align: center;">Enter the amount of notes you wish to enter here.</h2>
+<h2 style="text-align: center;">New Project</h2>
 
 
 
@@ -11,18 +11,20 @@
 {% endif %}
 
 <form method="POST" style="display: inline block; text-align:center;padding-bottom: 20px;">
+	<label>Amount of notes in new project:</label>
 	<input type="number" name="notes" style="width: 10%;">
 	<input type="submit" value="Continue" style="width: 75px;">
 </form>
 
 <h1>HOW TO USE THE SYNTH</h1>
 <p>
-	The synth interface is simple to use 
+	The synth interface is very simple to use. Each note is able to be at any pitch in the C Major scale. Pushing the play button will play a preview of your piece. Pushing the export button will allow you to download the piece as either a .wav for listening and sharing or a .cowbell to save and edit your piece later. If you wish to extend the length of a note, 
 </p>
 
-<form action = "http://localhost:5000/uploader" method = "POST" enctype = "multipart/form-data">
-    <input type = "file" name = "file" style="align: center"/>
-    <input type = "submit"/>
+<h2 style="text-align: center;">Upload a .cowbell File</h2>
+<form action="http://localhost:5000/uploader" method="POST" enctype="multipart/form-data" style="margin: 0 auto;width:280px;">
+    <input type="file" name="file" style="width:200px;float:left;" />
+    <input type="submit" style="width:80px;float:left;" value="Upload" />
 </form>
 
 

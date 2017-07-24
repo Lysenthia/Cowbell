@@ -43,6 +43,20 @@
 <audio id="preview_audio" src="../static/song_previews/dummy.wav" ></audio>
 
 
+<!-- Link button script -->
+<script type="text/javascript">
+	function linkNote(linkButton) {
+		
+	}
+	for (i = 0; i < document.getElementsByClassName('synthbuttons').length; i++) {
+		if document.getElementById("linkbutton" + i).checked {
+			linkNote("linkbutton" + i)
+			//window.addEventListener("DOMContentLoaded", function(event) {
+			//	document.getElementById("linkbutton" + i).addEventListener("click", linkNote);
+			//})
+		}
+	}
+</script>
 
 <!-- Slider GUI -->
 <form id="synthform" action="/exported" method="POST">
