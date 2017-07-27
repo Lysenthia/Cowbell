@@ -24,15 +24,17 @@ class Song:
         notes = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
         infiles = []
         #infiles = ['sound_array/{}.wav'.format(x) for x in notes]
-        note_counter = 0
+        link_counter = 0
+        note_index = 0
         for note in notes:
             if self.LINKED_NOTES[note_counter] == '1':
+                link_counter += 1
                 #BOOKMARK#####
-                infiles.append(self.linked_note_generator())
+                while notes[note_index] == infiles.append(self.linked_note_generator())
                 #BOOKMARK#####
             else:
                 infiles.append('sound_array/{}.wav'.format(note))
-            note_counter += 1
+            note_index += 1
         combinedAudio = AudioSegment.from_wav(infiles[0])
         infiles.pop(0)
         for infile in infiles:
