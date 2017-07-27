@@ -57,6 +57,8 @@ footer {
 	border-bottom-right-radius: 25px;
 }
 
+
+/* Gradients on main element backgrounds */
 header, footer {
 	background: var(--dark-background);
 	background: -webkit-linear-gradient(left top, rgba(10, 10, 35, 0.7), rgba(15, 15, 45, 0.9)); /* For Safari 5.1 to 6.0 */
@@ -171,12 +173,13 @@ input[type=range][orient=vertical] {
 }
 
 
-
 .synthbuttons {
 	width: 50px;
 	display: inherit;
 }
 
+
+/* Legacy Download Buttons
 #downloadButton {
 	color: #0b2398;
 	background-color: #A5A5FF;
@@ -195,4 +198,65 @@ input[type=range][orient=vertical] {
 
 #downloadButton: {
 	color: purple;
+}
+*/
+
+
+/* Export Page Grid and Formatting */
+
+#input_area{
+    display:grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    grid-gap: 5px;
+}
+#input_area label{
+    grid-column: 1;
+    text-align: left;
+    
+}
+#input_area select{
+    grid-column: 2;
+    width: 99.5%;  
+}
+#input_area button{
+    grid-column: 3;
+    
+}
+#input_area input{
+    width: 98%;
+}
+#input_area #cb_dl{
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+#input_area .p2label{
+    grid-column: 1 / -2;
+}
+#input_area #cb_dl button{
+    grid-column: 2;
+}
+#index_content{
+    text-align: center;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+	grid-gap: 5px;
+}
+#index_content #create_proj{
+	grid-column: 1 / -1;
+	display:grid;
+    grid-template-columns: 1fr 1fr;
+	grid-gap: 5px;
+}
+#index_content #cb_upload{
+	grid-column: 1 / -1;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+	grid-gap: 5px;
+}
+#choose_file{
+	grid-column: 1;
+}
+#submit_file{
+	grid-column: 2;
 }

@@ -2,9 +2,40 @@
 
 {% block content %}
 
-<h2 style="text-align: center;">Your file has been exported idk if it was successful or not...lol</h2>
-
+<h2 style="text-align: center;">You can download your exported file from one of the links below.</h2>
+<!-- Legacy Download Options
 <a href="/return-file/{{ wavFileName }}" id="downloadButton">Download WAV File</a>
 <a href="/return-db/{{ databasename }}" id="downloadButton">Download Cowbell Song File</a>
+-->
+
+<h2 style="text-align: center;">Your song has been exported and is ready to download</h2>
+<div id='input_area' align="center">
+
+	<form>
+		<label for='combobox' class='grid_element' id='format_label'>File Format:</label>
+		<select id='combobox' class='grid_element' name="audioformats" title="CHOOSE SOMETHING HENRY">
+			<option value="wav" selected>WAV</option>
+			<option value="mp3">MP3</option>
+			<option value="ogg">OGG</option>
+		</select>
+		<button id='format_download_btn' type="button" class='grid_element'>Download Audio File</button>
+	</form>
+
+	<form>
+		<label for='uid_input' class='grid_element' id='uid_label'>Enter your id number:</label>
+		<input type="text" name="uid_input" class='grid_element'></input>
+		<button type="button" id='save_btn' class='grid_element'>Save to cloud</button>
+	</form>
+
+	<form>
+		<label for='uid_input' class='p2label' id='get_uid_label'>Don't have an id number? Get one now:</label>
+		<button type="button" id='get_uid' class='grid_element'>Get your id number</button>
+	</form>
+
+	<form>
+		<label for='download_cb_btn' id='cb_download_label' class='p2label'>Download Cowbell File for storing the song locally:</label>
+		<button type="button" id='download_cb_btn' class='grid_element'>Download Cowbell File</button>
+	</form>
+</div>
 
 {% endblock %}

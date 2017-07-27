@@ -79,17 +79,17 @@ def return_file(wavfilename):
 	
 @website.route('/uploader', methods = ['GET', 'POST'])
 def uploader_file():
-   if request.method == 'POST':
-      noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
-      f = request.files['file']
-      f.save(secure_filename(f.filename))
-      song_read = Song()
-      song_read.read_from_database(f.filename)
-      notes_no = len(song_read.notes_to_play) / 2
-      notes_to_set = [song_read.notes_to_play[i:i+2] for i in range(0, len(song_read.notes_to_play) - 1, 2)]
-      values_to_set = [noteDict[i] for i in notes_to_set]
-      print(values_to_set)
-   return render_template('synth_uploaded.html', notes_no=notes_no, values_to_set=values_to_set)
+	if request.method == 'POST':
+		noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
+		f = request.files['file']
+		f.save(secure_filename(f.filename))
+		song_read = Song()
+		song_read.read_from_database(f.filename)
+		notes_no = len(song_read.notes_to_play) / 2
+		notes_to_set = [song_read.notes_to_play[i:i+2] for i in range(0, len(song_read.notes_to_play) - 1, 2)]
+		values_to_set = [noteDict[i] for i in notes_to_set]
+		print(values_to_set)
+	return render_template('synth_uploaded.html', notes_no=notes_no, values_to_set=values_to_set)
 
 @website.route('/return-db/<databasename>')
 def return_db(databasename):
@@ -98,16 +98,16 @@ def return_db(databasename):
 
 @website.route('/preview')
 def preview_generator():
-        print("IN PREVIEW")
-        note_nums_temp = request.args.get('param_send', '00000000')
-        note_nums = list(note_nums_temp)
-        noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
-        slider_values = []
-        for note in note_nums:
-                slider_values.append(noteDict[int(note)])
-        slider_values_string = ''.join(slider_values)
-        preview_song = Preview(slider_values_string)
-        previewFileName = preview_song.make_wav()
-        previewFileName = previewFileName.replace('public','..')
-        json_filename = jsonify(previewname=previewFileName)
-        return jsonify(previewname=previewFileName)
+		print("IN PREVIEW")
+		note_nums_temp = request.args.get('param_send', '00000000')
+		note_nums = list(note_nums_temp)
+		noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
+		slider_values = []
+		for note in note_nums:
+				slider_values.append(noteDict[int(note)])
+		slider_values_string = ''.join(slider_values)
+		preview_song = Preview(slider_values_string)
+		previewFileName = preview_song.make_wav()
+		previewFileName = previewFileName.replace('public','..')
+		json_filename = jsonify(previewname=previewFileName)
+		return jsonify(previewname=previewFileName)
