@@ -111,3 +111,14 @@ def preview_generator():
 		previewFileName = previewFileName.replace('public','..')
 		json_filename = jsonify(previewname=previewFileName)
 		return jsonify(previewname=previewFileName)
+
+@website.route('/downloader/<action>/<filename>')
+def downloader():
+	if 
+	return "You shouldn't be here"
+
+
+
+	#this should be broken henry
+	#go to the html and make the wav redirect to here and then if request.form.whatever = wav then make it download the wav
+	#BY redirecting to the wav page which should be forwarded in the url

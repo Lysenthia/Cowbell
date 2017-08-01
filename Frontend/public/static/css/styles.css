@@ -204,38 +204,40 @@ input[type=range][orient=vertical] {
 
 /* Export Page Grid and Formatting */
 
-#input_area{
+.exportedgrid{
     display:grid;
     grid-template-columns: 1fr 1fr 2fr;
     grid-gap: 5px;
 }
-#input_area label{
+.exportedgrid label{
     grid-column: 1;
     text-align: left;
     
 }
-#input_area select{
+.exportedgrid select{
     grid-column: 2;
     width: 99.5%;  
 }
-#input_area button{
+.exportedgrid button{
     grid-column: 3;
     
 }
-#input_area input{
+.exportedgrid input{
+
     width: 98%;
 }
-#input_area #cb_dl{
+.exportedgrid #cb_dl{
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: 1fr 1fr;
 }
-#input_area .p2label{
+.exportedgrid .p2label{
     grid-column: 1 / -2;
 }
-#input_area #cb_dl button{
+.exportedgrid #cb_dl button{
     grid-column: 2;
 }
+
 #index_content{
     text-align: center;
     display:grid;
