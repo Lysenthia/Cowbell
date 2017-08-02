@@ -1,1 +1,1 @@
-XCOPY S:\pydub-0.19.0\pydub C:\Python34\Lib /E
+XCOPY .\pydub-0.19.0\pydub C:\Python34\Lib /E

@@ -11,6 +11,7 @@ from preview_generator import Preview
 import cloud_save
 from flask import jsonify, request
 import os
+import sqlite3
 
 ###########
 #Global Variables Start
