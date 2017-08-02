@@ -90,175 +90,43 @@ header, footer {
 	color: red;
 }
 
+h1 {
+	text-align: center;
+	font-size:32px;
+}
+
+h2 {
+	font-size: 24px;
+}
+
+p {
+	line-height: 33px;
+}
+
 a {
 	text-decoration: none;
 	display: block;
 }
 
-.controlbuttons {
-	width: 50%;
-	float:left; 
+.footertext {
+
 }
 
-#synthform {
-	padding-top: 50px;
+#helplink {
+	color: #A0A0A0;
+	padding: 0;
 }
 
-#sliders {
-	overflow: auto;
-	white-space: nowrap;
+/* Only the visited works??? fix */
+
+#helplink:hover {
+	color: #DDDDDD;
 }
 
-.individualslider{
-	display: inline;
+#helplink:active {
+	color: #FFFFFF;
 }
 
-input[type=range][orient=vertical] {
-	-webkit-appearance: slider-vertical; /* WebKit */
-	width: 8px;
-	height: 175px;
-	display: inherit;
-}
-
-
-
-
-/* Tooltips */
-
-/* Tooltip container */
-.linktooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
-}
-
-/* Tooltip text */
-.linktooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    padding: 5px 0;
-    border-radius: 6px;
-
-    /* Position the tooltip text */
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-
-    /* Fade in tooltip */
-    opacity: 0;
-    transition: opacity 1s;
-}
-
-/* Tooltip arrow */
-.linktooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-}
-
-/* Show the tooltip text when you mouse over the tooltip container */
-.linktooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
-}
-
-
-.synthbuttons {
-	width: 50px;
-	display: inherit;
-}
-
-
-/* Legacy Download Buttons
-#downloadButton {
-	color: #0b2398;
-	background-color: #A5A5FF;
-	text-align: center;
-	width: 20%;
-	margin: 0 auto;
-	height: 40px;
-	line-height: 40px;
-	border: 2px solid;
-	border-radius: 4px;
-}
-
-#downloadButton:hover {
-	color: purple;
-}
-
-#downloadButton: {
-	color: purple;
-}
-*/
-
-
-/* Export Page Grid and Formatting */
-
-.exportedgrid{
-    display:grid;
-    grid-template-columns: 1fr 1fr 2fr;
-    grid-gap: 5px;
-}
-.exportedgrid label{
-    grid-column: 1;
-    text-align: left;
-    
-}
-.exportedgrid select{
-    grid-column: 2;
-    width: 99.5%;  
-}
-.exportedgrid button{
-    grid-column: 3;
-    
-}
-.exportedgrid input{
-
-    width: 98%;
-}
-.exportedgrid #cb_dl{
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-}
-.exportedgrid .p2label{
-    grid-column: 1 / -2;
-}
-.exportedgrid #cb_dl button{
-    grid-column: 2;
-}
-
-#index_content{
-    text-align: center;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-	grid-gap: 5px;
-}
-#index_content #create_proj{
-	grid-column: 1 / -1;
-	display:grid;
-    grid-template-columns: 1fr 1fr;
-	grid-gap: 5px;
-}
-#index_content #cb_upload{
-	grid-column: 1 / -1;
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-	grid-gap: 5px;
-}
-#choose_file{
-	grid-column: 1;
-}
-#submit_file{
-	grid-column: 2;
+#helplink:visited {
+	color: #808080;
 }

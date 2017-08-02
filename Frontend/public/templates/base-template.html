@@ -2,6 +2,8 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="/static/css/styles.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/synth.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/export.css">
 	<link rel="stylesheet" type="text/css" href="/static/css/animate.css">
 	<link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -27,8 +29,11 @@
 
 		<footer>
 			
-			<p>&copy; Henry Nicholson & Hamish O'Keeffe 2017</p>
-			<a href="">Click here to get help!</a>
+			<p id="footertext">
+				&copy; Henry Nicholson & Hamish O'Keeffe 2017
+				<br>
+				<a href="{{ url_for('help') }}" id="helplink">Click here to get help!</a>
+			</p>
 		</footer>
 	</div>
 </body>

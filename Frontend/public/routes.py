@@ -11,6 +11,9 @@ from preview_generator import Preview
 from flask import jsonify, request
 import os
 
+#
+#    VISIBLE PAGES
+#
 
 #HOMEPAGE/NOTE AMOUNT ENTER
 @website.route('/', methods=['GET', 'POST'])
@@ -26,8 +29,6 @@ def index():
 			return redirect('/synth/{}'.format(str(noteamt)))
 	else:
 		return render_template('index.html', error=error)
-
-
 
 #SYNTH PAGE
 @website.route('/synth/<notes>')#, methods=['GET', 'POST'])
@@ -72,11 +73,25 @@ def exported():
 	#Return the exported page and attach the filename of the exported WAV file
 	return render_template('exported.html', wavFileName=wavFileName, databasename=databasename)
 
+#HELP PAGE
+@website.route('/help')
+def help():
+	return render_template('help.html')
+
+
+
+#
+#	BACKGROUND PAGES
+#
+
+
+# When a user is directed to this page, it downloads the file they request from the output directory
 @website.route('/return-file/<wavfilename>')
 def return_file(wavfilename):
 	directory = '{}{}'.format(os.getcwd(),'/wav_outfiles/')
 	return send_from_directory(directory, wavfilename, attachment_filename=wavfilename, as_attachment=True, mimetype='audio/wav')
 	
+# Handles the uploading of cowbell files
 @website.route('/uploader', methods = ['GET', 'POST'])
 def uploader_file():
 	if request.method == 'POST':
@@ -113,12 +128,10 @@ def preview_generator():
 		return jsonify(previewname=previewFileName)
 
 @website.route('/downloader/<action>/<filename>')
-def downloader():
-	if 
+def downloader(action, filename):
+	if action == "audiofile":
+		return redirect('/return-file/{}'.format(filename))
+	if action == "cowbellfile":
+		return redirect('/return-db/{}'.format(filename))
 	return "You shouldn't be here"
 
-
-
-	#this should be broken henry
-	#go to the html and make the wav redirect to here and then if request.form.whatever = wav then make it download the wav
-	#BY redirecting to the wav page which should be forwarded in the url

@@ -1,0 +1,82 @@
+/* Export Page Grid and Formatting */
+
+.exportedgrid{
+    display:grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    grid-gap: 5px;
+}
+.exportedgrid label{
+    grid-column: 1;
+    text-align: left;
+    
+}
+.exportedgrid select{
+    grid-column: 2;
+    width: 99.5%;  
+}
+.exportedgrid button{
+    grid-column: 3;
+    
+}
+.exportedgrid input{
+
+    width: 98%;
+}
+.exportedgrid #cb_dl{
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.exportedgrid .p2label{
+    grid-column: 1 / -2;
+}
+.exportedgrid #cb_dl button{
+    grid-column: 2;
+}
+
+#index_content{
+    text-align: center;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+	grid-gap: 5px;
+}
+#index_content #create_proj{
+	grid-column: 1 / -1;
+	display:grid;
+    grid-template-columns: 1fr 1fr;
+	grid-gap: 5px;
+}
+#index_content #cb_upload{
+	grid-column: 1 / -1;
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+	grid-gap: 5px;
+}
+#choose_file{
+	grid-column: 1;
+}
+#submit_file{
+	grid-column: 2;
+}
+
+/* Legacy Download Buttons
+#downloadButton {
+    color: #0b2398;
+    background-color: #A5A5FF;
+    text-align: center;
+    width: 20%;
+    margin: 0 auto;
+    height: 40px;
+    line-height: 40px;
+    border: 2px solid;
+    border-radius: 4px;
+}
+
+#downloadButton:hover {
+    color: purple;
+}
+
+#downloadButton: {
+    color: purple;
+}
+*/

@@ -11,7 +11,7 @@
 <h2 style="text-align: center;">Your song has been exported and is ready to download</h2>
 <div id="input_area" align="center">
 
-	<form class="exportedgrid" action="/return-file/{{ wavFileName }}">
+	<form class="exportedgrid" action="/downloader/audiofile/{{ wavFileName }}">
 		<label for='combobox' class='grid_element' id='format_label'>File Format:</label>
 		<select id='combobox' class='grid_element' name="audioformats" title="CHOOSE SOMETHING HENRY">
 			<option value="wav" selected>WAV</option>
@@ -32,7 +32,7 @@
 		<button type="submit" id='get_uid' class='grid_element'>Get your id number</button>
 	</form>
 
-	<form class="exportedgrid" method="POST">
+	<form class="exportedgrid" action="downloader/cowbellfile/{{ databasename }}">
 		<label for='download_cb_btn' id='cb_download_label' class='p2label'>Download Cowbell File for storing the song locally:</label>
 		<button type="submit" id='download_cb_btn' class='grid_element'>Download Cowbell File</button>
 	</form>
