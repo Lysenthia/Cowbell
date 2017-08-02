@@ -8,8 +8,19 @@ from werkzeug import secure_filename
 from public import website
 from generator import Song
 from preview_generator import Preview
+import cloud_save
 from flask import jsonify, request
 import os
+
+###########
+#Global Variables Start
+###########
+SERVER_DB_NAME = 'cloud_storage.db'
+SERVER_DB_DIRECTORY = 'server_side_storage/'
+###########
+#Global Variables End
+###########
+
 
 #
 #    VISIBLE PAGES
@@ -135,3 +146,7 @@ def downloader(action, filename):
 		return redirect('/return-db/{}'.format(filename))
 	return "You shouldn't be here"
 
+@website.route('/get_uid')
+def get_uid():
+    used_uids = cloud_save.get_uids(SERVER_DB_NAME, SERVER_DB_DIRECTORY)
+    
