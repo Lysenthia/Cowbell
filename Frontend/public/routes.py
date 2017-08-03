@@ -157,3 +157,14 @@ def get_uid():
     cloud_save.add_user(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
     return uid
     
+@website.route('/get_uid/<uid>/<project_to_open>')
+def get_project_data(uid, project_to_open):
+    project_data = cloud_save.open_project(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid, project_to_open)
+    if request.method == 'POST':
+	    noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
+	    song_read = Song(project_data[1], project_data[2], project_data[4], project_data[0])
+	    notes_no = len(song_read.notes_to_play) / 2
+	    notes_to_set = [song_read.notes_to_play[i:i+2] for i in range(0, len(song_read.notes_to_play) - 1, 2)]
+	    values_to_set = [noteDict[i] for i in notes_to_set]
+	    print(values_to_set)
+    return render_template('synth_uploaded.html', notes_no=notes_no, values_to_set=values_to_set)

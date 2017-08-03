@@ -1,8 +1,9 @@
 class Song:
         
-    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', author_name='Anon', outfile_name=None):
+    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', author_name='Anon', outfile_name=None, cloud_db_pos=None):
         """ Constructs the song object """
         import datetime
+        self.cloud_db_pos = cloud_db_pos
         self.CROSSFADE_LENGTH = 50
         self.UNIT_LENGTH = 2
         self.notes_to_play = notes_to_play
