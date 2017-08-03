@@ -149,5 +149,11 @@ def downloader(action, filename):
 
 @website.route('/get_uid')
 def get_uid():
+    import uuid
     used_uids = cloud_save.get_uids(SERVER_DB_NAME, SERVER_DB_DIRECTORY)
+    uid = uuid.uuid4().hex
+    while uid in used_uids:
+        uid = uuid.uuid4().hex
+    cloud_save.add_user(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
+    return uid
     
