@@ -4,7 +4,7 @@
 
 <h1>The Synth</h1>
 <form>
-<script src='/static/js/jquery.js'></script>
+
 <script type=text/javascript>
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
@@ -46,16 +46,17 @@
 <!-- Link button script -->
 <script type="text/javascript">
 	function linkNote(linkButton) {
-		
+		document.getElementById("slider" + (linkButton)).value = document.getElementById("slider" + linkButton);
+		console.log("changed");
 	}
-	for (i = 0; i < document.getElementsByClassName('synthbuttons').length; i++) {
-		if document.getElementById("linkbutton" + i).checked {
-			linkNote("linkbutton" + i)
-			//window.addEventListener("DOMContentLoaded", function(event) {
-			//	document.getElementById("linkbutton" + i).addEventListener("click", linkNote);
-			//})
-		}
+	for (i = 0; i <= document.getElementsByClassName('synthbuttons').length; i++) {
+		console.log("HI");
+		window.addEventListener("DOMContentLoaded", function(event) {
+			document.getElementById("linkbutton" + i).addEventListener("change", linkNote(i));
+		})
+		$("#linkbutton" + i).attr("checked") ? alert("Checked") : alert("Unchecked");
 	}
+	console.log('hi');
 </script>
 
 <!-- Slider GUI -->
