@@ -82,8 +82,9 @@ def exported():
 	wavFileName = song.make_wav()
 	wavFileName = wavFileName.replace('wav_outfiles/','')
 	databasename = song.write_to_database()
+   jsonify = jsonify()
 	#Return the exported page and attach the filename of the exported WAV file
-	return render_template('exported.html', wavFileName=wavFileName, databasename=databasename)
+	return render_template('exported.html', wavFileName=wavFileName, databasename=databasename, jsondata=jsondata)
 
 #HELP PAGE
 @website.route('/help')
@@ -167,4 +168,9 @@ def get_project_data(uid, project_to_open):
 	    notes_to_set = [song_read.notes_to_play[i:i+2] for i in range(0, len(song_read.notes_to_play) - 1, 2)]
 	    values_to_set = [noteDict[i] for i in notes_to_set]
 	    print(values_to_set)
+    return render_template('synth_uploaded.html', notes_no=notes_no, values_to_set=values_to_set)
+
+@website.route('/add_project/<uid>/<project_data>')
+def add_project(uid, project_data):
+    cloud_save.add_project()
     return render_template('synth_uploaded.html', notes_no=notes_no, values_to_set=values_to_set)
