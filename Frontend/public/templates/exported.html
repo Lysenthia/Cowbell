@@ -1,14 +1,24 @@
 {% extends 'base-template.html' %}
 
 {% block content %}
-
+<!--
 <h2 style="text-align: center;">You can download your exported file from one of the links below.</h2>
-<!-- Legacy Download Options
+Legacy Download Options
 <a href="/return-file/{{ wavFileName }}" id="downloadButton">Download WAV File</a>
 <a href="/return-db/{{ databasename }}" id="downloadButton">Download Cowbell Song File</a>
 -->
-
-<h2 style="text-align: center;">Your song has been exported and is ready to download</h2>
+<script>
+	$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+	window.addEventListener("DOMContentLoaded", function(event) {
+		document.getElementById("get_uid").addEventListener("click", js_getuid);
+	});
+	function js_getuid() {
+	$.getJSON($SCRIPT_ROOT + "/get_uid", function(data){
+		var uid = data.uid
+		alert("Your uid is \n" + uid)
+	})}
+</script>
+<h2 style="text-align: center;">Your song has been exported and is ready to download or save.</h2>
 <div id="input_area" align="center">
 
 	<form class="exportedgrid" action="/downloader/audiofile/{{ wavFileName }}">
@@ -29,7 +39,7 @@
 
 	<form class="exportedgrid" method="POST">
 		<label for='uid_input' class='p2label' id='get_uid_label'>Don't have an id number? Get one now:</label>
-		<button type="submit" id='get_uid' class='grid_element'>Get your id number</button>
+		<button type="button" id='get_uid' class='grid_element'>Get your id number</button>
 	</form>
 
 	<form class="exportedgrid" action="downloader/cowbellfile/{{ databasename }}">

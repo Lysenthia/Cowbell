@@ -136,7 +136,6 @@ def preview_generator():
 		preview_song = Preview(slider_values_string)
 		previewFileName = preview_song.make_wav()
 		previewFileName = previewFileName.replace('public','..')
-		json_filename = jsonify(previewname=previewFileName)
 		return jsonify(previewname=previewFileName)
 
 @website.route('/downloader/<action>/<filename>')
@@ -145,7 +144,7 @@ def downloader(action, filename):
 		return redirect('/return-file/{}'.format(filename))
 	if action == "cowbellfile":
 		return redirect('/return-db/{}'.format(filename))
-	return "You shouldn't be here"
+	return "You shouldn't be here. GO BACK!"
 
 @website.route('/get_uid')
 def get_uid():
@@ -155,10 +154,10 @@ def get_uid():
     while uid in used_uids:
         uid = uuid.uuid4().hex
     cloud_save.add_user(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
-    return uid
+    return jsonify(uid=uid)
     
-@website.route('/get_uid/<uid>/<project_to_open>')
-def get_project_data(uid, project_to_open):
+@website.route('/get_project/<uid>/<project_to_open>')
+def get_project(uid, project_to_open):
     project_data = cloud_save.open_project(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid, project_to_open)
     if request.method == 'POST':
 	    noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
