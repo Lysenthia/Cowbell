@@ -16,8 +16,8 @@ import sqlite3
 ###########
 #Global Variables Start
 ###########
-SERVER_DB_NAME = 'cloud_storage.db'
-SERVER_DB_DIRECTORY = 'server_side_storage/'
+SERVER_DB_NAME = 'cloud_save.db'
+SERVER_DB_DIRECTORY = 'static/db'
 ###########
 #Global Variables End
 ###########

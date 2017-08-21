@@ -1,6 +1,6 @@
 """
 Created on Fri Jul 28 11:22:34 2017
-@author: Lysenthia
+@author: Lysenthia and dr-ex
 """
 class DropTablesError(Exception):
     """ Somebody tried to drop tables us """
@@ -9,8 +9,8 @@ def create_database(DB_NAME, DB_DIRECTORY):
     """ Creates the initial database """
     db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
-    cursor.execute('''CREATE TABLE user_ids
-         (row_id INTEGER PRIMARY KEY AUTOINCREMENT, uid TEXT, user_table_name TEXT)''')
+    cursor.execute('''CREATE TABLE users
+         (ID INTEGER PRIMARY KEY AUTOINCREMENT, uid TEXT, author_name TEXT)''')
     db.commit()
     cursor.close()
     db.close()
