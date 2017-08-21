@@ -155,6 +155,7 @@ def get_uid():
     while uid in used_uids:
         uid = uuid.uuid4().hex
     cloud_save.add_user(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
+    print(uid)
     return jsonify(uid=uid)
     
 @website.route('/get_project/<uid>/<project_to_open>')

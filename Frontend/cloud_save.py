@@ -2,6 +2,7 @@
 Created on Fri Jul 28 11:22:34 2017
 @author: Lysenthia and dr-ex
 """
+import sqlite3
 class DropTablesError(Exception):
     """ Somebody tried to drop tables us """
     
