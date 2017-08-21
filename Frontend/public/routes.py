@@ -82,7 +82,7 @@ def exported():
 	wavFileName = song.make_wav()
 	wavFileName = wavFileName.replace('wav_outfiles/','')
 	databasename = song.write_to_database()
-   jsonify = jsonify()
+	jsondata = jsonify(songdata=sNoteValues, author_name='Anon', outfile_name=None, cloud_db_pos=None)
 	#Return the exported page and attach the filename of the exported WAV file
 	return render_template('exported.html', wavFileName=wavFileName, databasename=databasename, jsondata=jsondata)
 
