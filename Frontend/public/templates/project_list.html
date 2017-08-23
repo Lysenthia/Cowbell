@@ -1,10 +1,16 @@
 {% extends 'base-template.html' %}
 
 {% block content %}
-
-<div>
-</div>
-<form id="project_list" method="POST">
+<script src='/static/js/jquery.js'></script>
+<script type=text/javascript>
+  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+<script>
+$('input[type="radio"]').on('click change', function(e) {
+    console.log(e);
+});
+</script>
+<form id="project_list" action="/get_project/{{ uid }}/<project_name_var>">
     {% for tuple in projects %}
     		<input type="radio" name="project" value="{{ tuple[2] }}" required> Project Name: {{ tuple[1] }} Creation Date: {{ tuple[0] }}<br>
     {% endfor %}
