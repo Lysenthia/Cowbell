@@ -87,9 +87,9 @@ def list_projects(DB_NAME, DB_DIRECTORY, UID):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
     db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
-    cursor.execute("SELECT ID FROM users WHERE UID='?'",(UID))
+    cursor.execute("SELECT ID FROM users WHERE UID=?",(UID,))
     user_ID = cursor.fetchall()
-    cursor.execute("SELECT ID, project_name, creation_date FROM songs WHERE user_ID='?'",(user_ID))
+    cursor.execute("SELECT ID, project_name, creation_date FROM songs WHERE user_ID=?",(user_ID,))
     projects = cursor.fetchall()
     db.commit()
     cursor.close()
@@ -97,3 +97,4 @@ def list_projects(DB_NAME, DB_DIRECTORY, UID):
     return 
 
 print(list_projects("database.db", "server_side_storage", "thisistheuidomg12345"))
+print(user_ID)
