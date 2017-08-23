@@ -89,12 +89,10 @@ def list_projects(DB_NAME, DB_DIRECTORY, UID):
     cursor = db.cursor()
     cursor.execute("SELECT ID FROM users WHERE UID=?",(UID,))
     user_ID = cursor.fetchall()
-    cursor.execute("SELECT ID, project_name, creation_date FROM songs WHERE user_ID=?",(user_ID,))
+    user_ID = user_ID[0][0]
+    cursor.execute("SELECT creation_date, project_name, ID FROM songs WHERE user_ID=?",(user_ID,))
     projects = cursor.fetchall()
     db.commit()
     cursor.close()
     db.close()
-    return 
-
-print(list_projects("database.db", "server_side_storage", "thisistheuidomg12345"))
-print(user_ID)
+    return projects
