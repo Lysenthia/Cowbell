@@ -11,7 +11,7 @@ from preview_generator import Preview
 import cloud_save
 from flask import jsonify, request
 import os
-import sqlite3
+import json
 
 ###########
 #Global Variables Start
@@ -172,5 +172,11 @@ def get_project(uid, project_to_open):
 
 @website.route('/add_project/<uid>/<project_data>')
 def add_project(uid, project_data):
+    
     cloud_save.add_project()
-    return render_template('synth_uploaded.html', notes_no=notes_no, values_to_set=values_to_set)
+    return None
+
+@website.route('get_projects/<uid>')
+def get_project_list(uid):
+    projects = cloud_save.list_projects(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
+    return render_template('project_list.html', projects=projects)

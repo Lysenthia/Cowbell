@@ -1,0 +1,13 @@
+{% extends 'base-template.html' %}
+
+{% block content %}
+
+<div>
+</div>
+<form id="project_list" method="POST">
+    {% for tuple in projects %}
+    		<input type="radio" name="project" value="{{ tuple[2] }}" required> Project Name: {{ tuple[1] }} Creation Date: {{ tuple[0] }}<br>
+    {% endfor %}
+    <input type="submit" value="Select this project" style="width: 75px;">
+</form>
+{% endblock %}
