@@ -74,7 +74,9 @@ def open_project(DB_NAME, DB_DIRECTORY, uid, song_ID):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
     db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
-    
+    #need id, notes, authors name, creation date, project name
+    cursor.execute("SELECT ID, song_notes, username, creation_date, project_name FROM songs INNER JOIN users ON users.ID = songs.user_ID")
+    project_data = cursor.fetchall()
     db.commit()
     cursor.close()
     db.close()
