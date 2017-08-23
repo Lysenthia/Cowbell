@@ -10,18 +10,19 @@ def create_database(DB_NAME, DB_DIRECTORY):
     """ Creates the initial database """
     db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
-    cursor.execute('''CREATE TABLE users
-        (ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-         UID TEXT, 
-         author_name TEXT)''')
+    cursor.execute('''CREATE TABLE users(
+        ID INTEGER PRIMARY KEY AUTOINCREMENT, 
+        UID TEXT, 
+        author_name TEXT)''')
 
-    cursor.execute('''CREATE TABLE songs
-        (ID INTEGER PRIMARY KEY AUTOINCREMENT, 
-         song_notes TEXT, 
-         creation_date TEXT, 
-         user_ID INTEGER, 
-         FOREIGN KEY(user_ID) REFERENCES users(ID)
-         project_name TEXT)''')
+    cursor.execute('''CREATE TABLE songs(
+        ID INTEGER PRIMARY KEY AUTOINCREMENT, 
+        song_notes TEXT, 
+        creation_date TEXT, 
+        project_name TEXT,
+        user_ID INTEGER, 
+        FOREIGN KEY(user_ID) REFERENCES users(ID)
+        )''')
     db.commit()
     cursor.close()
     db.close()
@@ -30,7 +31,7 @@ def add_user(DB_NAME, DB_DIRECTORY, uid, author_name="Anon"):
     """ Creates a new table in the database containing a users projects """
     if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, uid]):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
-    db = sqlite3.connect('{}{}'.format(DB_DIRECTORY, DB_NAME))
+    db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
     cursor.execute("INSERT INTO users VALUES (NULL, ?,?)",(uid, author_name))
     db.commit()
@@ -41,7 +42,7 @@ def add_project(DB_NAME, DB_DIRECTORY, user_ID, song_notes, creation_date, proje
     """ Adds the data for a project to a users table in the database """
     if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, user_ID, song_notes, creation_date, project_name]):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
-    db = sqlite3.connect('{}{}'.format(DB_DIRECTORY, DB_NAME))
+    db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
     cursor.execute("INSERT INTO songs VALUES (NULL, ?,?,?,?)",(song_notes, creation_date, user_ID, project_name))
     db.commit()
@@ -53,7 +54,7 @@ def get_uids(DB_NAME, DB_DIRECTORY):
     import itertools
     if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY]):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
-    db = sqlite3.connect('{}{}'.format(DB_DIRECTORY, DB_NAME))
+    db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
     cursor.execute("SELECT UID FROM users")
     all_uids = cursor.fetchall()
@@ -71,7 +72,7 @@ def open_project(DB_NAME, DB_DIRECTORY, uid, song_ID):
     import itertools
     if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, uid, str(project_to_open)]):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
-    db = sqlite3.connect('{}{}'.format(DB_DIRECTORY, DB_NAME))
+    db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
     
     db.commit()
@@ -82,11 +83,17 @@ def open_project(DB_NAME, DB_DIRECTORY, uid, song_ID):
 def list_projects(DB_NAME, DB_DIRECTORY, UID):
     """ Returns a list of tuple triplets of creation_date, project_name and song_ID for a users songs """
     import itertools
-    if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, uid, str(project_to_open)]):
+    if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, UID]):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
-    db = sqlite3.connect('{}{}'.format(DB_DIRECTORY, DB_NAME))
+    db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
-    cursor.execute("SELECT ID, project_name, creation_date FROM songs WHERE user_ID = ")
+    cursor.execute("SELECT ID FROM users WHERE UID='?'",(UID))
+    user_ID = cursor.fetchall()
+    cursor.execute("SELECT ID, project_name, creation_date FROM songs WHERE user_ID='?'",(user_ID))
+    projects = cursor.fetchall()
     db.commit()
     cursor.close()
     db.close()
+    return 
+
+print(list_projects("database.db", "server_side_storage", "thisistheuidomg12345"))
