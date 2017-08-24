@@ -64,18 +64,28 @@ def get_uids(DB_NAME, DB_DIRECTORY):
     all_uids = list(itertools.chain(*all_uids))
     return all_uids
 
-def save_project(DB_NAME, DB_DIRECTORY, uid, song_notes, author_name, creation_date, project_name):
+def save_project(DB_NAME, DB_DIRECTORY, uid, song_ID, project_name, song_notes):
     """ Saves an already existing page to the database """
-    
-def open_project(DB_NAME, DB_DIRECTORY, uid, song_ID):
-    """ Opens a project for use """
-    import itertools
-    if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, uid, str(project_to_open)]):
+    if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, uid]):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
     db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
     cursor = db.cursor()
-    #need id, notes, authors name, creation date, project name
-    cursor.execute("SELECT ID, song_notes, username, creation_date, project_name FROM songs INNER JOIN users ON users.ID = songs.user_ID")
+    cursor.execute("SELECT ID FROM users WHERE UID=?",(uid,))
+    user_ID = cursor.fetchall()
+    user_ID = user_ID[0][0]
+    cursor.execute("UPDATE songs SET song_notes = ?, project_name = ? WHERE user_ID=? AND ID=?",(song_notes, project_name, user_ID, song_ID,))
+    db.commit()
+    cursor.close()
+    db.close()
+    return True
+    
+def open_project(DB_NAME, DB_DIRECTORY, uid, song_ID):
+    """ Opens a project for use """
+    if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, uid]):
+        raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
+    db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
+    cursor = db.cursor()
+    cursor.execute("SELECT songs.ID, song_notes, author_name, creation_date, project_name FROM songs INNER JOIN users ON users.ID = songs.user_ID WHERE songs.ID=? AND UID=?",(song_ID, uid,))
     project_data = cursor.fetchall()
     db.commit()
     cursor.close()
@@ -84,7 +94,6 @@ def open_project(DB_NAME, DB_DIRECTORY, uid, song_ID):
 
 def list_projects(DB_NAME, DB_DIRECTORY, UID):
     """ Returns a list of tuple triplets of creation_date, project_name and song_ID for a users songs """
-    import itertools
     if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, UID]):
         raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
     db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
@@ -98,3 +107,7 @@ def list_projects(DB_NAME, DB_DIRECTORY, UID):
     cursor.close()
     db.close()
     return projects
+
+#print(open_project("database.db", "server_side_storage", "thisistheuidomg12345", 3))
+
+#save_project("database.db", "server_side_storage", "thisistheuidomg12345", 3, "yser 1's cool project", "oldsongnotes")
