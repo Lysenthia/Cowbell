@@ -77,11 +77,7 @@ def exported():
 
 	#Convert noteValues to string
 	sNoteValues = ''.join(noteValues)
-	#Create WAV file from the string version of noteValues
-	song = Song(sNoteValues)
-	wavFileName = song.make_wav()
-	wavFileName = wavFileName.replace('wav_outfiles/','')
-	databasename = song.write_to_database()
+	
 	jsondata = jsonify(songdata=sNoteValues, author_name='Anon', outfile_name=None, cloud_db_pos=None)
 	#Return the exported page and attach the filename of the exported WAV file
 	return render_template('exported.html', wavFileName=wavFileName, databasename=databasename, jsondata=jsondata)
@@ -139,10 +135,15 @@ def preview_generator():
 		previewFileName = previewFileName.replace('public','..')
 		return jsonify(previewname=previewFileName)
 
-@website.route('/downloader/<action>/<filename>')
+@website.route('/downloader/<action>/<json_data>/<file_format>')
 def downloader(action, filename):
 	if action == "audiofile":
-		return redirect('/return-file/{}'.format(filename))
+		#Create WAV file from the string version of noteValues
+		song = Song(sNoteValues)
+		wavFileName = song.make_wav()
+		wavFileName = wavFileName.replace('wav_outfiles/','')
+		databasename = song.write_to_database()
+		#return redirect('/return-file/{}'.format(filename))
 	if action == "cowbellfile":
 		return redirect('/return-db/{}'.format(filename))
 	return "You shouldn't be here. GO BACK!"
