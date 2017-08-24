@@ -6,11 +6,17 @@
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
 <script>
-$('input[type="radio"]').on('click change', function(e) {
-    console.log(e);
-});
+jQuery(document).ready(function ()
+    {
+        $("input[name='project']").change(radioValueChanged);
+    })
+    function radioValueChanged(){
+    radioValue = $(this).val();
+    console.log(radioValue)
+    document.project_list.action = "/get_project/{{ uid }}/" + radioValue;
+    }
 </script>
-<form id="project_list" action="/get_project/{{ uid }}/<project_name_var>">
+<form id="project_list" action="dummy">
     {% for tuple in projects %}
     		<input type="radio" name="project" value="{{ tuple[2] }}" required> Project Name: {{ tuple[1] }} Creation Date: {{ tuple[0] }}<br>
     {% endfor %}
