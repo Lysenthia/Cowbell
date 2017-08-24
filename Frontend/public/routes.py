@@ -12,12 +12,13 @@ import cloud_save
 from flask import jsonify, request
 import os
 import json
+import sqlite3
 
 ###########
 #Global Variables Start
 ###########
 SERVER_DB_NAME = 'cloud_save.db'
-SERVER_DB_DIRECTORY = 'static/db'
+SERVER_DB_DIRECTORY = 'public/static/db'
 ###########
 #Global Variables End
 ###########
@@ -89,6 +90,21 @@ def exported():
 @website.route('/help')
 def help():
 	return render_template('help.html')
+
+@website.route('/projects', methods = ['GET', 'POST'])
+def userprojects():
+	if request.method == 'POST':
+		uid = request.form.get('uid')
+		db = sqlite3.connect('{}/{}'.format(SERVER_DB_DIRECTORY, SERVER_DB_NAME))
+		cursor = db.cursor()
+		cursor.execute("SELECT author_name FROM users WHERE UID = ?",(uid,))
+		user_ID = cursor.fetchall()
+		user_ID = user_ID[0][0]
+		projects = cloud_save.list_projects(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
+
+		return render_template("projects.html", user_ID=user_ID, projects=projects)
+	else:
+		return "Go back, you didn't enter a UID!"
 
 
 
