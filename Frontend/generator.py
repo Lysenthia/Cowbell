@@ -18,7 +18,7 @@ class Song:
         self.outfile = str('{}'.format(self.outfile_name))
         self.author_name = author_name
         
-    def make_wav(self):
+    def make_wav(self, fileformat="wav"):
         """ Makes the song from notes_to_play"""
         from pydub import AudioSegment
         notes = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
@@ -27,7 +27,7 @@ class Song:
         infiles.pop(0)
         for infile in infiles:
             combinedAudio = combinedAudio.append(AudioSegment.from_wav(infile), crossfade=self.CROSSFADE_LENGTH)
-        combinedAudio.export(self.outfile, format="wav", tags={'artist': self.author_name})
+        combinedAudio.export(self.outfile, format=fileformat, tags={'artist': self.author_name})
         return self.outfile
     
     def garbage(self):
