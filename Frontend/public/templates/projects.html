@@ -2,12 +2,14 @@
 
 {% block content %}
 
-<h1>Welcome {{ user_ID }}</h1>
+<h1>Welcome {{ author }}</h1>
 
-{% for project in projects %}
+<ul id="projects">
+{% for tuple in projects %}
 
-<a href=""></a>
+<li class="project"><a href="get_project/{{ uid }}/{{ tuple[1] }}" class="projectlink">{{ tuple[1] }}</a></li>
 
 {% endfor %}
+</ul>
 
 {% endblock %}

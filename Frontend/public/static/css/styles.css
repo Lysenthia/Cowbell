@@ -130,3 +130,17 @@ a {
 #uploadfile {
 	padding-bottom: 40px;
 }
+
+
+/* Projects Page */
+#projects {
+	list-style-type: lower-alpha;
+	color: green;
+}
+
+.project {
+	list-style-type: lower-alpha;
+	color: green;
+}
+
+.projectlink
