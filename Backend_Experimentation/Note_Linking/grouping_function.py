@@ -27,21 +27,31 @@ def gen_note(note, duration):
 
 def main():
     notes_to_play = 'C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4'
-    note_linking = '1000000000000000'
+    note_linking = '1000000000000101'
     UNIT_LENGTH = 2
-    linked_notes = list(note_linking+'*')
+    linked_notes = list(note_linking)
     note_list = [notes_to_play[i:i+UNIT_LENGTH] for i in range(0, len(notes_to_play), UNIT_LENGTH)]
+    linked_notes_dup = linked_notes
     list_with_groups = []
     note_index = 0
-    for note in note_list:
-        temp_list = [note]
-        if note_index +1 != len(note_list):
-            if note_list[note_index + 1] == note and linked_notes[note_index] == '1':
-                temp_list.append(note)
-                note_list.pop(note_index + 1)
-                linked_notes.pop(note_index + 1)
-            note_index += 1
-        list_with_groups.append(temp_list)
+    cur = linked_notes_dup[0]
+    while len(linked_notes_dup) > 0:
+        if cur == '1' and note_list[note_index] == note_list[note_index + 1]:
+            group = [note_list[note_index]]
+            while cur == '1' and note_list[note_index] == note_list[note_index + 1]:
+                group.append(note_list[note_index])
+                linked_notes_dup.pop(0)
+                if len(linked_notes_dup) == 0:
+                    break
+                note_index += 1
+                cur = linked_notes_dup[0]
+            list_with_groups.append(group)
+        else:
+            list_with_groups.append(note_list[note_index])
+        if len(linked_notes_dup) == 0:
+            break
+        note_index += 1
+        linked_notes_dup.pop(0)
+        cur = linked_notes_dup[0]
     print(list_with_groups)
-        
 main()
