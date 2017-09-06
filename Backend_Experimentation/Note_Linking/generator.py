@@ -1,15 +1,16 @@
 class Song:
         
-    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='0000000000000000', author_name='Anon', outfile_name=None):
+    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='0000000000000000', author_name='Anon', outfile_name=None, cloud_db_pos=None):
         """ Constructs the song object """
         import datetime
+        self.cloud_db_pos = cloud_db_pos
         self.CROSSFADE_LENGTH = 50
         self.UNIT_LENGTH = 2
         self.notes_to_play = notes_to_play
         self.creation_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
         self.DB_DIRECTORY = 'database_outfiles/'
         self.WAV_DIRECTORY = 'wav_outfiles/'
-        self.LINKED_NOTES = '*'+note_linking
+        self.linked_notes = note_linking
         if outfile_name == None:
             self.outfile_name = "{}music{}.wav".format(self.WAV_DIRECTORY,self.creation_date)
         else:
@@ -18,28 +19,19 @@ class Song:
         self.outfile = str('{}'.format(self.outfile_name))
         self.author_name = author_name
         
-    def make_wav(self):
+    def make_wav(self, fileformat="wav"):
         """ Makes the song from notes_to_play"""
         from pydub import AudioSegment
-        notes = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
-        infiles = []
-        #infiles = ['sound_array/{}.wav'.format(x) for x in notes]
-        link_counter = 0
-        note_index = 0
-        for note in notes:
-            if self.LINKED_NOTES[note_counter] == '1':
-                link_counter += 1
-                #BOOKMARK#####
-                while notes[note_index] == infiles.append(self.linked_note_generator())
-                #BOOKMARK#####
-            else:
-                infiles.append('sound_array/{}.wav'.format(note))
-            note_index += 1
-        combinedAudio = AudioSegment.from_wav(infiles[0])
-        infiles.pop(0)
-        for infile in infiles:
-            combinedAudio = combinedAudio.append(AudioSegment.from_wav(infile), crossfade=self.CROSSFADE_LENGTH)
-        combinedAudio.export(self.outfile, format="wav", tags={'artist': self.author_name})
+        if '1' in self.linked_notes:
+            pass
+        else:
+            notes = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
+            infiles = ['sound_array/{}.wav'.format(x) for x in notes]
+            combinedAudio = AudioSegment.from_wav(infiles[0])
+            infiles.pop(0)
+            for infile in infiles:
+                combinedAudio = combinedAudio.append(AudioSegment.from_wav(infile), crossfade=self.CROSSFADE_LENGTH)
+            combinedAudio.export(self.outfile, format=fileformat, tags={'artist': self.author_name})
         return self.outfile
     
     def garbage(self):
@@ -82,8 +74,35 @@ class Song:
         db.close()
         os.remove(database_name)
         
-    def linked_note_generator(self, note, ):
-        """ Generates a new file for a note that spans several notes """
+    def linked_note_parser(self, notes, linked_notes):
+        """ Parses a song with linked notes """
+        linked_notes = list(self.note_linking)
+        note_list = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
+        linked_notes_dup = linked_notes
+        list_with_groups = []
+        note_index = 0
+        cur = linked_notes_dup[0]
+        while len(linked_notes_dup) > 0:
+            if cur == '1' and note_list[note_index] == note_list[note_index + 1]:
+                group = [note_list[note_index]]
+                while cur == '1' and note_list[note_index] == note_list[note_index + 1]:
+                    group.append(note_list[note_index])
+                    linked_notes_dup.pop(0)
+                    if len(linked_notes_dup) == 0:
+                        break
+                    note_index += 1
+                    cur = linked_notes_dup[0]
+                list_with_groups.append(group)
+            else:
+                list_with_groups.append(note_list[note_index])
+            if len(linked_notes_dup) == 0:
+                break
+            note_index += 1
+            linked_notes_dup.pop(0)
+            cur = linked_notes_dup[0]
+        return list_with_groups
+
+    def gen_note(self, note, duration):
         import math
         import wave
         import struct
@@ -97,16 +116,15 @@ class Song:
              ('A7', 3520.00),('B7', 3951.07),('C7', 2093.00),('D7', 2349.32),('E7', 2637.02),('F7', 2793.83),('G7', 3135.96),
              ('A8',7040.00),('B8', 7902.13),('C8', 4186.01),('D8', 4698.63),('E8', 5274.04),('F8', 5587.65),('G8', 6271.93)]
         note_dic = dict(note_list)
+        frequency = note_dic[note]
         sampleRate = 44100.0
-        duration = 0.5
         SAMPLE_LEN = sampleRate * duration
-        for note, frequency in note_list:
-            noise_output = wave.open('{}.wav'.format(note), 'w')
-            noise_output.setparams((1, 2, 44100, 0, 'NONE', 'not compressed'))
+        noise_output = wave.open('{}{}.wav'.format(note, duration), 'w')
+        noise_output.setparams((1, 2, 44100, 0, 'NONE', 'not compressed'))
         sounds = []
         for i in range(0, int(SAMPLE_LEN)):
-                packed_value = struct.pack('<h', int(32767.0*math.cos(frequency*math.pi*float(i)/float(sampleRate))))
-                sounds.append(packed_value)
+            packed_value = struct.pack('<h', int(32767.0*math.cos(frequency*math.pi*float(i)/float(sampleRate))))
+            sounds.append(packed_value)
         sounds_str = b''.join(sounds)
         noise_output.writeframes(sounds_str)
         noise_output.close()

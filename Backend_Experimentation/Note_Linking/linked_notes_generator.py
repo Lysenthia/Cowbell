@@ -53,5 +53,5 @@ def main():
         note_index += 1
         linked_notes_dup.pop(0)
         cur = linked_notes_dup[0]
-    print(list_with_groups)
+    return list_with_groups
 main()
