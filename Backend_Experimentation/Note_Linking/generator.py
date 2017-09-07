@@ -1,6 +1,6 @@
 class Song:
         
-    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='0000000000000000', author_name='Anon', outfile_name=None, cloud_db_pos=None):
+    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='1000000000000011', author_name='Anon', outfile_name=None, cloud_db_pos=None):
         """ Constructs the song object """
         import datetime
         self.cloud_db_pos = cloud_db_pos
@@ -23,15 +23,25 @@ class Song:
         """ Makes the song from notes_to_play"""
         from pydub import AudioSegment
         if '1' in self.linked_notes:
-            pass
+            notes = self.linked_note_parser()
+            infiles = []
+            generated_notes = []
+            for note in notes:
+                if isinstance(note, list):
+                    note_length = len(note)
+                    self.gen_note(note[0], note_length)
+                    infiles.append('sound_array/{}{}.wav'.format(note, note_length))
+                    generated_notes.append('sound_array/{}{}.wav'.format(note, note_length))
+                else:
+                    infiles.append('sound_array/{}.wav'.format(note))
         else:
             notes = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
             infiles = ['sound_array/{}.wav'.format(x) for x in notes]
             combinedAudio = AudioSegment.from_wav(infiles[0])
-            infiles.pop(0)
-            for infile in infiles:
-                combinedAudio = combinedAudio.append(AudioSegment.from_wav(infile), crossfade=self.CROSSFADE_LENGTH)
-            combinedAudio.export(self.outfile, format=fileformat, tags={'artist': self.author_name})
+        infiles.pop(0)
+        for infile in infiles:
+            combinedAudio = combinedAudio.append(AudioSegment.from_wav(infile), crossfade=self.CROSSFADE_LENGTH)
+        combinedAudio.export(self.outfile, format=fileformat, tags={'artist': self.author_name})
         return self.outfile
     
     def garbage(self):
@@ -40,6 +50,10 @@ class Song:
         os.remove("{}{}".format(self.WAV_DIRECTORY, self.outfile))
         os.remove("{}{}".format(self.DB_DIRECTORY, self.database_name))
         
+    def garbage_gen_notes(self):
+        """ Removes any notes made during son compilation """
+        pass
+    
     def write_to_database(self):
         """ Writes the song to an SQLite3 Database """
         import sqlite3
@@ -74,7 +88,7 @@ class Song:
         db.close()
         os.remove(database_name)
         
-    def linked_note_parser(self, notes, linked_notes):
+    def linked_note_parser(self):
         """ Parses a song with linked notes """
         linked_notes = list(self.note_linking)
         note_list = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
@@ -119,7 +133,7 @@ class Song:
         frequency = note_dic[note]
         sampleRate = 44100.0
         SAMPLE_LEN = sampleRate * duration
-        noise_output = wave.open('{}{}.wav'.format(note, duration), 'w')
+        noise_output = wave.open('sound_array/{}{}.wav'.format(note,duration), 'w')
         noise_output.setparams((1, 2, 44100, 0, 'NONE', 'not compressed'))
         sounds = []
         for i in range(0, int(SAMPLE_LEN)):
