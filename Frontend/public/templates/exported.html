@@ -18,26 +18,17 @@ Legacy Download Options
 		alert("Your uid is \n" + uid)
 	})}
 	
-	jQuery(document).ready(function ()
-    {
-        $("input[name='audioformats']").change(fileformatsChanged);
-    })
-    function fileformatsChanged(){
-        fileFormat = $(this).val();
-        console.log(fileFormat)
-        window.location = "/downloader/audiofile/"+fileFormat;
-    }
 </script>
 <h2 style="text-align: center;">Your song has been exported and is ready to download or save.</h2>
 <div id="input_area" align="center">
-
-	<form class="exportedgrid" name="fileformatdownload" method='POST'>
+	<form class="exportedgrid" name="fileformatdownload" method='POST' action="{{ url_for('downloader') }}">
 		<label for='combobox' class='grid_element' id='format_label'>File Format:</label>
 		<select id='combobox' class='grid_element' name="audioformats" title="CHOOSE SOMETHING HENRY" required>
 			<option value="wav" selected>WAV</option>
 			<option value="mp3">MP3</option>
 			<option value="ogg">OGG</option>
 		</select>
+		<input type="hidden" value="{{ jsondata }}" name="returnedjson">
 		<button id='format_download_btn' type="submit" class='grid_element'>Download Audio File</button>
 	</form>
 
