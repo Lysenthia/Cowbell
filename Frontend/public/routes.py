@@ -47,8 +47,7 @@ def index():
 @website.route('/synth/<notes>')#, methods=['GET', 'POST'])
 def synth(notes = None):
 	if request.method == 'GET':
-		print("Sup")
-	return render_template('synth.html', notes=notes)
+		return render_template('synth.html', notes=notes)
 
 
 #DISPLAYS WHEN WAV EXPORTED
@@ -174,7 +173,11 @@ def downloader():
 				# print(type(json_data))
 				returnedjson = json.loads(request.form.get("returnedjson"))
 				#"songdata":sNoteValues, "author_name":'Anon', "outfile_name":None, "cloud_db_pos":None}
-				song = Song(None)
+				for i in returnedjson:
+					print("value{}".format(i))
+					print(i)
+
+				song = Song()
 				wavFileName = song.make_wav()
 				wavFileName = wavFileName.replace('wav_outfiles/','')
 				databasename = song.write_to_database()
