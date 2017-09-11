@@ -30,8 +30,8 @@ class Song:
                 if isinstance(note, list):
                     note_length = len(note)
                     self.gen_note(note[0], note_length)
-                    infiles.append('gened_note/{}{}.wav'.format(note, note_length))
-                    self.generated_notes.append('gened_note/{}{}.wav'.format(note, note_length))
+                    infiles.append('gened_notes/{}{}.wav'.format(note[0], note_length))
+                    self.generated_notes.append('gened_notes/{}{}.wav'.format(note[0], note_length))
                 else:
                     infiles.append('sound_array/{}.wav'.format(note))
         else:
@@ -93,7 +93,7 @@ class Song:
         
     def linked_note_parser(self):
         """ Parses a song with linked notes """
-        linked_notes = list(self.note_linking)
+        linked_notes = list(self.linked_notes)
         note_list = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
         linked_notes_dup = linked_notes
         list_with_groups = []
@@ -135,8 +135,8 @@ class Song:
         note_dic = dict(note_list)
         frequency = note_dic[note]
         sampleRate = 44100.0
-        SAMPLE_LEN = sampleRate * duration
-        noise_output = wave.open('gened_note/{}{}.wav'.format(note,duration), 'w')
+        SAMPLE_LEN = sampleRate * duration * 0.5
+        noise_output = wave.open('gened_notes/{}{}.wav'.format(note,duration), 'w')
         noise_output.setparams((1, 2, 44100, 0, 'NONE', 'not compressed'))
         sounds = []
         for i in range(0, int(SAMPLE_LEN)):
