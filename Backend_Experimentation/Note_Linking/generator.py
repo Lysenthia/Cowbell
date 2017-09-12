@@ -1,6 +1,6 @@
 class Song:
         
-    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='1000000000000011', author_name='Anon', outfile_name=None, cloud_db_pos=None):
+    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='dummy', author_name='Anon', outfile_name=None, cloud_db_pos=None):
         """ Constructs the song object """
         import datetime
         self.cloud_db_pos = cloud_db_pos
@@ -10,7 +10,10 @@ class Song:
         self.creation_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
         self.DB_DIRECTORY = 'database_outfiles/'
         self.WAV_DIRECTORY = 'wav_outfiles/'
-        self.linked_notes = note_linking
+        if note_linking == 'dummy':
+            self.linked_notes = "0" * int((len(notes_to_play) / 2))
+        else:
+            self.linked_notes = note_linking
         if outfile_name == None:
             self.outfile_name = "{}music{}.wav".format(self.WAV_DIRECTORY,self.creation_date)
         else:
@@ -22,10 +25,10 @@ class Song:
     def make_wav(self, fileformat="wav"):
         """ Makes the song from notes_to_play"""
         from pydub import AudioSegment
+        self.generated_notes = []
         if '1' in self.linked_notes:
             notes = self.linked_note_parser()
             infiles = []
-            self.generated_notes = []
             for note in notes:
                 if isinstance(note, list):
                     note_length = len(note)
@@ -54,7 +57,7 @@ class Song:
     def garbage_gen_notes(self):
         """ Removes any notes made during son compilation """
         import os
-        for file in self.generated_notes:
+        for file in set(self.generated_notes):
             os.remove(file)
         
     def write_to_database(self):
