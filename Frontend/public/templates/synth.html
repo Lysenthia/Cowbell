@@ -43,33 +43,30 @@
 <audio id="preview_audio" src="../static/song_previews/dummy.wav" ></audio>
 
 
-<!-- Link button script - Unimplemented
+<!-- Link button script -->
 <script type="text/javascript">
 	function linkNote(linkButton) {
-		document.getElementById("slider" + (linkButton)).value = document.getElementById("slider" + linkButton);
 		console.log("changed");
 	}
 	for (i = 0; i <= document.getElementsByClassName('synthbuttons').length; i++) {
-		console.log("HI");
 		window.addEventListener("DOMContentLoaded", function(event) {
 			document.getElementById("linkbutton" + i).addEventListener("change", linkNote(i));
 		})
-		$("#linkbutton" + i).attr("checked") ? alert("Checked") : alert("Unchecked");
 	}
 	console.log('hi');
 </script>
--->
+
 <!-- Slider GUI -->
 <form id="synthform" action="/exported" method="POST">
 	<div id="sliders">
 		{% for i in range(notes|int) %}
 		<div class="individualslider">
 			<input type="range" orient="vertical" step="1" max="7" min="0" value="0" style="padding: 0 2.3%;" name="slider{{i}}" id="slider{{i}}"/>
-			<!-- Synth Buttons - unimplemented
+			<!-- Synth Buttons -->
 			{% if i != notes|int - 1 %}
 			<input type="checkbox" value="Link" class="synthbuttons" name="linkbutton{{i}}" id="linkbutton{{i}}" title="Link notes together to create longer notes" />
 			{% endif %}
-			-->
+			
 		</div>
 		{% endfor %}
 	</div>
