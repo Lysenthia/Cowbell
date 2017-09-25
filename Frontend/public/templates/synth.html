@@ -5,12 +5,15 @@
 <h1>The Synth</h1>
 <form>
 
-<script type=text/javascript>
+<script type="text/javascript">
+<!--
   $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+//-->
 </script>
 
 <!-- LIVE PLAYBLACK SCRIPT AND OBJECT -->
-<script>
+<script type="text/javascript">
+<!--
 	function play_preview(){
 		var slider_values = [];
 		for (i = 0; i < document.getElementsByClassName('individualslider').length; i++) {
@@ -27,8 +30,10 @@
 	window.addEventListener("DOMContentLoaded", function(event) {
 		document.getElementById("play_button").addEventListener("click", play_preview);
 	})
+//-->
 </script>
-<script>
+<script type="text/javascript">
+<!--
 	window.addEventListener("DOMContentLoaded", function(event) {
 		document.getElementById("stop_button").addEventListener("click", stop_preview);
 	});
@@ -36,15 +41,16 @@
 		preview_audio.pause();
 		preview_audio.currentTime = 0;
 	}
+//-->
 </script>
 	<input type="button" value="Play" class="controlbuttons" id="play_button"/>
 	<input type="button" value="Stop" class="controlbuttons" id="stop_button"/>
 </form>
 <audio id="preview_audio" src="../static/song_previews/dummy.wav" ></audio>
 
-
 <!-- Link button script -->
 <script type="text/javascript">
+<!--
     	function linkNote(linkButton) {
 		console.log("changed" + linkButton);
 	};
@@ -54,12 +60,14 @@
 			document.getElementById("linkbutton" + i).addEventListener('change', function() {
     if(this.checked) {
         console.log(this.id)
-    } else {
-        console.log(this.id)
+        var slider_number = Number(this.id.replace("linkbutton", ""))
+        var value_to_place = document.getElementById("slider" + slider_number).value
+        document.getElementById("slider" + (slider_number + 1)).value = value_to_place
     }
 })
 		}
 	});
+//-->
 </script>
 
 <!-- Slider GUI -->
