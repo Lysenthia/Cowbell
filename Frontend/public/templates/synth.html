@@ -45,15 +45,21 @@
 
 <!-- Link button script -->
 <script type="text/javascript">
-	function linkNote(linkButton) {
-		console.log("changed");
-	}
-	for (i = 0; i <= document.getElementsByClassName('synthbuttons').length; i++) {
-		window.addEventListener("DOMContentLoaded", function(event) {
-			document.getElementById("linkbutton" + i).addEventListener("change", linkNote(i));
-		})
-	}
-	console.log('hi');
+    	function linkNote(linkButton) {
+		console.log("changed" + linkButton);
+	};
+	window.addEventListener("DOMContentLoaded", function(event) {
+	for (var i = 0; i < document.getElementsByClassName('synthbuttons').length; i++) {
+        	console.log(i)
+			document.getElementById("linkbutton" + i).addEventListener('change', function() {
+    if(this.checked) {
+        console.log(this.id)
+    } else {
+        console.log(this.id)
+    }
+})
+		}
+	});
 </script>
 
 <!-- Slider GUI -->
