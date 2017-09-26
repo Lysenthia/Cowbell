@@ -17,9 +17,9 @@ class Song:
         else:
             self.linked_notes = note_linking
         if outfile_name == None:
-            self.outfile_name = "{}music{}.wav".format(self.WAV_DIRECTORY,self.creation_date)
+            self.outfile_name = "{}music{}".format(self.WAV_DIRECTORY,self.creation_date)
         else:
-            self.outfile_name = "{}{}.wav".format(self.WAV_DIRECTORY,outfile_name)
+            self.outfile_name = "{}{}".format(self.WAV_DIRECTORY,outfile_name)
         self.database_name = "music{}.cowbell".format(self.creation_date)
         self.outfile = str('{}'.format(self.outfile_name))
         self.author_name = author_name
@@ -27,6 +27,8 @@ class Song:
     def make_wav(self, fileformat="wav"):
         """ Makes the song from notes_to_play"""
         from pydub import AudioSegment
+        outfile_name = "{}.{}".format(self.outfile, fileformat)
+        print(outfile_name)
         self.generated_notes = []
         if '1' in self.linked_notes:
             notes = self.linked_note_parser()
@@ -46,15 +48,17 @@ class Song:
         infiles.pop(0)
         for infile in infiles:
             combinedAudio = combinedAudio.append(AudioSegment.from_wav(infile), crossfade=self.CROSSFADE_LENGTH)
-        combinedAudio.export(self.outfile, format=fileformat, tags={'artist': self.author_name})
+        combinedAudio.export(outfile_name, format=fileformat, tags={'artist': self.author_name})
         self.garbage_gen_notes()
-        return self.outfile
+        return outfile_name
     
-    def garbage(self):
+    def garbage(self, fileformat):
         """ Deletes the file (Hopefully this will be automated one day) """
         import os
-        os.remove("{}{}".format(self.WAV_DIRECTORY, self.outfile))
-        os.remove("{}{}".format(self.DB_DIRECTORY, self.database_name))
+        if fileformat == "cowbell":
+            os.remove("{}{}".format(self.DB_DIRECTORY, self.database_name))    
+        else:
+            os.remove("{}{}".format(self.WAV_DIRECTORY, self.outfile))
         
     def garbage_gen_notes(self):
         """ Removes any notes made during son compilation """
