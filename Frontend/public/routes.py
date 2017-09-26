@@ -62,26 +62,40 @@ def exported():
 	sliderValues = {}
 	noteValues = []
 	sliderKeys = []
+	linked_notes_dict = {}
+	linked_note_keys = []
+	linked_notes = []
 	#Get the submitted slider values from the previous page
 	rawSliderValues = request.values if request.method == "GET" else request.values
 	#Extract the data from rawSliderValues and add it to sliderValues (Also get rid of "exporttowav")
+	print(rawSliderValues)
 	for key in rawSliderValues:
-		if key != "exporttowav":
+		if "slider" in key:
 			print(key)
 			temp_key = int(key[6:])
 			sliderValues[temp_key] = rawSliderValues[key]
+		elif "link" in key:
+			temp_key = int(key[10:])
+			linked_notes_dict[temp_key] = rawSliderValues[key]
 
 	#Create a sorted list of the keys from slider values
 	sliderKeys = sorted(sliderValues)
+	linked_note_keys = sorted(linked_notes_dict)
 	print(sliderKeys)
 	#  Get each note value from the noteDict in order using the sorted sliderKeys 
 	#  list to call values from sliderValues in the original order
 	for item in sliderKeys:
 		noteValues.append(noteDict[int(sliderValues[item])])
-
+	for item in linked_note_keys:
+		linked_notes.append(noteDict[int(linked_notes_dict[item])])
 	#Convert noteValues to string
 	sNoteValues = ''.join(noteValues)
-	jsondata = json.dumps({"songdata":sNoteValues, "author_name":'Anon', "outfile_name":None, "cloud_db_pos":None})
+	str_linked_notes = ''.join(linked_notes)
+	jsondata = json.dumps({"songdata":sNoteValues, 
+                        "linked_notes":str_linked_notes,
+                        "author_name":'Anon', 
+                        "outfile_name":None, 
+                        "cloud_db_pos":None})
 	print("JSON: ".format(jsondata))
 	print(type(jsondata))
 	#Return the exported page and attach the filename of the exported WAV file
@@ -193,7 +207,7 @@ def downloader():
 		elif "databasename" in request.form:
 
 			databasename = song.write_to_database()
-			return redirect('/return-db/{}'.format(filename))
+			return redirect('/return-db/{}'.format(databasename))
 	return "You shouldn't be here. GO BACK!"
 
 @website.route('/get_uid')

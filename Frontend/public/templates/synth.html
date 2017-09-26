@@ -63,13 +63,31 @@
         var slider_number = Number(this.id.replace("linkbutton", ""))
         var value_to_place = document.getElementById("slider" + slider_number).value
         document.getElementById("slider" + (slider_number + 1)).value = value_to_place
+        document.getElementById("slider" + (slider_number + 1)).disabled = true
+        
+    } else {
+        console.log(this.id)
+        var slider_number = Number(this.id.replace("linkbutton", ""))
+        document.getElementById("slider" + (slider_number + 1)).disabled = false
     }
 })
 		}
 	});
 //-->
 </script>
-
+<script>
+<!--
+$('#synthform').submit(function() {
+  for (var i = 0; i < document.getElementsByClassName("synthbuttons").length; i++) {
+  if (document.getElemtById("linkbutton" + i).checked) {
+      document.getElementById("linkbutton" + i + "Hidden").disabled = true;
+  }
+  };
+  for (var i = 0; i < document.getElementsByClassName("individualslider").length; i++) {
+      document.getElemtById("slider" + i).disabled = false
+}});
+//-->
+</script>
 <!-- Slider GUI -->
 <form id="synthform" action="/exported" method="POST">
 	<div id="sliders">
@@ -78,7 +96,8 @@
 			<input type="range" orient="vertical" step="1" max="7" min="0" value="0" style="padding: 0 2.3%;" name="slider{{i}}" id="slider{{i}}"/>
 			<!-- Synth Buttons -->
 			{% if i != notes|int - 1 %}
-			<input type="checkbox" value="Link" class="synthbuttons" name="linkbutton{{i}}" id="linkbutton{{i}}" title="Link notes together to create longer notes" />
+			<input type="hidden" value="0" class="synthbuttonsHidden" name="linkbutton{{i}}" id="linkbutton{{i}}Hidden" title="Link notes together to create longer notes" />
+			<input type="checkbox" value="1" class="synthbuttons" name="linkbutton{{i}}" id="linkbutton{{i}}" title="Link notes together to create longer notes" />
 			{% endif %}
 			
 		</div>
