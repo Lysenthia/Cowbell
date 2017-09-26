@@ -166,25 +166,33 @@ def preview_generator():
 @website.route('/downloader', methods=['GET', 'POST'])
 def downloader():
 	if request.method =="POST":
+		returnedjson = json.loads(request.form.get("returnedjson"))
+		for i in returnedjson:
+			print("value{}".format(i))
+			print(i)
+		
+		# Generate the song from the json data
+		#	REMEMBER TO ADD NOTE LINKING TO JSON
+
+		song = Song(returnedjson["songdata"], 'dummy', returnedjson["author_name"], returnedjson["outfile_name"], returnedjson["cloud_db_pos"])
+		
+
 		if "audioformats" in request.form:
-			if request.form.get("audioformats") == "wav":
-				#Create WAV file from the string version of noteValues
-				# json_data = request.get_json()
-				# print(type(json_data))
-				returnedjson = json.loads(request.form.get("returnedjson"))
-				#"songdata":sNoteValues, "author_name":'Anon', "outfile_name":None, "cloud_db_pos":None}
-				for i in returnedjson:
-					print("value{}".format(i))
-					print(i)
+			#Create WAV file from the string version of noteValues
+			# json_data = request.get_json()
+			# print(type(json_data))
+			#"songdata":sNoteValues, "author_name":'Anon', "outfile_name":None, "cloud_db_pos":None}
+			#	REMEMBER TO ADD NOTE LINKING TO JSON
+			
+			wavFileName = song.make_wav(request.form.get("audioformats"))
+			wavFileName = wavFileName.replace('wav_outfiles/','')
 
-				song = Song()
-				wavFileName = song.make_wav()
-				wavFileName = wavFileName.replace('wav_outfiles/','')
-				databasename = song.write_to_database()
-				#return redirect('/return-file/{}'.format(filename))
+			return redirect('/return-file/{}'.format(wavFileName))
 
 
-		elif action == "cowbellfile":
+		elif "databasename" in request.form:
+
+			databasename = song.write_to_database()
 			return redirect('/return-db/{}'.format(filename))
 	return "You shouldn't be here. GO BACK!"
 

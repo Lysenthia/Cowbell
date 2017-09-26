@@ -45,6 +45,8 @@ Legacy Download Options
 
 	<form class="exportedgrid" action="downloader/cowbellfile/{{ databasename }}">
 		<label for='download_cb_btn' id='cb_download_label' class='p2label'>Download Cowbell File for storing the song locally:</label>
+		<input type="hidden" value="{{ jsondata }}" name="returnedjson">
+		<input type="hidden" value="{{ databasename }}" name="databasename">
 		<button type="submit" id='download_cb_btn' class='grid_element'>Download Cowbell File</button>
 	</form>
 </div>

@@ -1,5 +1,7 @@
 class Song:
         
+    #   REMEMBER TO ADD NOTE LINKING TO JSON
+
     def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='dummy', author_name='Anon', outfile_name=None, cloud_db_pos=None):
         """ Constructs the song object """
         import datetime
