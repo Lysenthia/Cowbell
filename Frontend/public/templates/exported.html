@@ -43,7 +43,7 @@ Legacy Download Options
 		<button type="button" id='get_uid' class='grid_element'>Get your id number</button>
 	</form>
 
-	<form class="exportedgrid" action="downloader/cowbellfile/{{ databasename }}">
+	<form class="exportedgrid" method="POST" action="{{ url_for('downloader') }}">
 		<label for='download_cb_btn' id='cb_download_label' class='p2label'>Download Cowbell File for storing the song locally:</label>
 		<input type="hidden" value="{{ jsondata }}" name="returnedjson">
 		<input type="hidden" value="{{ databasename }}" name="databasename">
