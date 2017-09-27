@@ -126,15 +126,9 @@ def userprojects():
 
 
 
-
-
-
-
-
-
-
-
-
+##
+#	BACKEND ROUTES (downloading and uploading files, play and stop preview in synth)
+##
 
 # When a user is directed to this page, it downloads the file they request from the output directory
 @website.route('/return-file/<wavfilename>')
@@ -142,9 +136,9 @@ def return_file(wavfilename):
 	directory = '{}{}'.format(os.getcwd(),'/wav_outfiles/')
 	return send_from_directory(directory, wavfilename, attachment_filename=wavfilename, as_attachment=True, mimetype='audio/wav')
 	
-# Handles the uploading of cowbell files
 @website.route('/uploader', methods = ['GET', 'POST'])
 def uploader_file():
+	'''Handles the uploading of cowbell files'''
 	if request.method == 'POST':
 		noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
 		f = request.files['file']
@@ -159,26 +153,30 @@ def uploader_file():
 
 @website.route('/return-db/<databasename>')
 def return_db(databasename):
+	'''When a user is directed to a page, the database that is specified is downloaded'''
 	directory = '{}/database_outfiles/'.format(os.getcwd())
 	return send_from_directory(directory, databasename, attachment_filename=databasename, as_attachment=True)
 
+
 @website.route('/preview')
 def preview_generator():
-		print("IN PREVIEW")
-		note_nums_temp = request.args.get('param_send', '00000000')
-		note_nums = list(note_nums_temp)
-		noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
-		slider_values = []
-		for note in note_nums:
-				slider_values.append(noteDict[int(note)])
-		slider_values_string = ''.join(slider_values)
-		preview_song = Preview(slider_values_string)
-		previewFileName = preview_song.make_wav()
-		previewFileName = previewFileName.replace('public','..')
-		return jsonify(previewname=previewFileName)
+	'''Constructs a WAV file for preview on the synth page'''
+	print("IN PREVIEW")
+	note_nums_temp = request.args.get('param_send', '00000000')
+	note_nums = list(note_nums_temp)
+	noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
+	slider_values = []
+	for note in note_nums:
+			slider_values.append(noteDict[int(note)])
+	slider_values_string = ''.join(slider_values)
+	preview_song = Preview(slider_values_string)
+	previewFileName = preview_song.make_wav()
+	previewFileName = previewFileName.replace('public','..')
+	return jsonify(previewname=previewFileName)
 
 @website.route('/downloader', methods=['GET', 'POST'])
 def downloader():
+	'''Manages the download of zips'''
 	if request.method =="POST":
 		returnedjson = json.loads(request.form.get("returnedjson"))
 		for i in returnedjson:
@@ -212,6 +210,7 @@ def downloader():
 
 @website.route('/get_uid')
 def get_uid():
+	'''Generates a new UID and checks if its already in the database'''
 	import uuid
 	used_uids = cloud_save.get_uids(SERVER_DB_NAME, SERVER_DB_DIRECTORY)
 	uid = uuid.uuid4().hex
