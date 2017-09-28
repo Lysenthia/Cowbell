@@ -64,6 +64,9 @@
         var value_to_place = document.getElementById("slider" + slider_number).value
         document.getElementById("slider" + (slider_number + 1)).value = value_to_place
         document.getElementById("slider" + (slider_number + 1)).disabled = true
+        $(document).on('input', '#slider' + (slider_number), function() {
+			$('#slider' + (slider_number + 1)).val($('#slider' + (slider_number)).html( $(this).val() ));
+		});
         
     } else {
         console.log(this.id)

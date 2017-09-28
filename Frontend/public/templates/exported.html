@@ -14,8 +14,9 @@ Legacy Download Options
 	});
 	function js_getuid() {
 	$.getJSON($SCRIPT_ROOT + "/get_uid", function(data){
-		var uid = data.uid
-		alert("Your uid is \n" + uid)
+		var uid = data.uid;
+		//alert("Your uid is \n" + uid)
+		prompt("This is your UID. Please copy and paste it somewhere safe.", uid)
 	})}
 	
 </script>
