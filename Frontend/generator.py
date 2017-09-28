@@ -31,12 +31,12 @@ class Song:
         print(outfile_name)
         self.generated_notes = []
         if '1' in self.linked_notes:
-            notes = self.linked_note_parser()
+            notes = self._linked_note_parser()
             infiles = []
             for note in notes:
                 if isinstance(note, list):
                     note_length = len(note)
-                    self.gen_note(note[0], note_length)
+                    self._gen_note(note[0], note_length)
                     infiles.append('gened_notes/{}{}.wav'.format(note[0], note_length))
                     self.generated_notes.append('gened_notes/{}{}.wav'.format(note[0], note_length))
                 else:
@@ -100,7 +100,7 @@ class Song:
         db.close()
         os.remove(database_name)
         
-    def linked_note_parser(self):
+    def _linked_note_parser(self):
         """ Parses a song with linked notes """
         linked_notes = list(self.linked_notes)
         note_list = [self.notes_to_play[i:i+self.UNIT_LENGTH] for i in range(0, len(self.notes_to_play), self.UNIT_LENGTH)]
@@ -128,7 +128,7 @@ class Song:
             cur = linked_notes_dup[0]
         return list_with_groups
 
-    def gen_note(self, note, duration):
+    def _gen_note(self, note, duration):
         import math
         import wave
         import struct
