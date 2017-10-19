@@ -29,25 +29,34 @@ SERVER_DB_DIRECTORY = 'public/static/db'
 #
 
 #HOMEPAGE/NOTE AMOUNT ENTER
-@website.route('/', methods=['GET', 'POST'])
+@website.route('/')
 def index():
+	return render_template('index.html')
+
+#NEW PROJECT PAGE
+@website.route('/newproject', methods=['GET', 'POST'])
+def newproject():
 	error = None
 	if request.method == 'POST':
 		noteamt = request.form.get('notes')
 		if noteamt == "" or noteamt == "0":
-			error = "Please enter a non-zero number."
-			return render_template('index.html', error=error)
+			error = "Please enter a non-zero integer."
+			return render_template('newproject.html', error=error)
 		else:
 			noteamt = abs(int(noteamt))
 			return redirect('/synth/{}'.format(str(noteamt)))
 	else:
-		return render_template('index.html', error=error)
+		return render_template('newproject.html')
+
+#EXISTING PROJECT PAGE
+@website.route('/oldproject')
+def oldproject():
+	return render_template('oldproject.html')
 
 #SYNTH PAGE
 @website.route('/synth/<notes>')#, methods=['GET', 'POST'])
 def synth(notes = None):
-	if request.method == 'GET':
-		return render_template('synth.html', notes=notes)
+	return render_template('synth.html', notes=notes)
 
 
 #DISPLAYS WHEN WAV EXPORTED

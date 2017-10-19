@@ -126,18 +126,33 @@ a {
 	color: #FFFFFF;
 }
 
+/*INDEX STYLE*/
+#newproject, #oldproject {
+	display: inline-block;
+	padding-left: 10px;
+	padding-right: 10px;
+}
 
-#uploadfile {
+#indexwrapper {
 	padding-bottom: 40px;
-	margin: 0 auto;
-	display: inline-block;
+	text-align: center;
 }
 
-#newproject {
-	margin: 0 auto;
+/*OLD PROJECT*/
+#uploadfile, #enteruid {
 	display: inline-block;
-}
+	padding-left: 10px;
+	padding-right: 10px;
 
+} 
+
+#oldprojectwrapper {
+	padding-bottom: 40px;
+	text-align: center;
+	display: flex;
+	margin: 0 auto;
+	width: 60%;
+}
 
 /* Projects Page */
 #projects {
@@ -150,4 +165,24 @@ a {
 	color: green;
 }
 
-.projectlink
+.button {
+	font: bold 11px Arial;
+	width: 200px;
+	margin: 0 auto;
+	text-align: center;
+	text-decoration: none;
+	background-color: #EEEEEE;
+	color: #333333;
+	padding: 2px 6px 2px 6px;
+	border-top: 1px solid #CCCCCC;
+	border-right: 1px solid #333333;
+	border-bottom: 1px solid #333333;
+	border-left: 1px solid #CCCCCC;
+}
+
+.button:active {
+	border-top: 1px solid #333333;
+	border-right: 1px solid #CCCCCC;
+	border-bottom: 1px solid #CCCCCC;
+	border-left: 1px solid #333333;
+}

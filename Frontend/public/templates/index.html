@@ -2,32 +2,21 @@
 
 {% block content %}
 
-<div id="newproject">
-	<h2>Do you want to create a new project?</h2>
-	<input type="button" value="New Project" style="width: 150px;">
-</div>
+<div id="indexwrapper">
+	<div id="newproject">
+		<h2>Do you want to create a new project?</h2>
+		<a href="{{ url_for('newproject') }}" class="button">New Project</a>
+	</div>
 
-<div id="uploadfile">
-	<h2>Do you already have a project?</h2>
-	<input type="button" value="Existing Project" style="width: 150px;">
+	<div id="oldproject">
+		<h2>Do you already have a project?</h2>
+		<a href="{{ url_for('oldproject') }}" class="button">Existing Project</a>
+	</div>
 </div>
 	
 
 
 <!--
-<div id="newproject">
-	<h2 style="text-align: center;">New Project</h2>
-
-	{% if error %}
-		<p class="error">{{ error }}</p>
-	{% endif %}
-
-	<form method="POST" style="display: inline block; text-align:center;padding-bottom: 20px;">
-		<label>Amount of notes in new project:</label>
-		<input type="number" name="notes" style="width: 10%;">
-		<input type="submit" value="Continue" style="width: 75px;">
-	</form>
-</div>
 
 <div id="uploadfile">
 	<h2 style="text-align: center;">Upload a .cowbell File</h2>

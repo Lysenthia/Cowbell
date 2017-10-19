@@ -1,0 +1,18 @@
+{% extends 'base-template.html' %}
+
+{% block content %}
+
+<h2 style="text-align: center;">New Project</h2>
+
+{% if error %}
+	<p class="error">{{ error }}</p>
+{% endif %}
+
+<form method="POST" style="display: inline block; text-align:center;padding-bottom: 20px;">
+	<label>Amount of notes in new project:</label>
+	<input type="number" name="notes" style="width: 10%;">
+	<input type="submit" value="Continue" style="width: 75px;">
+</form>
+
+
+{% endblock %}
