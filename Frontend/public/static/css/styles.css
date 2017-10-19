@@ -81,9 +81,9 @@ header, footer {
 	/*display: flex;*/
 }
 
-.page-content * {
+/*.page-content * {
 	width: 100%;
-}
+}*/
 
 .error {
 	text-align: center;
@@ -129,6 +129,13 @@ a {
 
 #uploadfile {
 	padding-bottom: 40px;
+	margin: 0 auto;
+	display: inline-block;
+}
+
+#newproject {
+	margin: 0 auto;
+	display: inline-block;
 }
 
 
