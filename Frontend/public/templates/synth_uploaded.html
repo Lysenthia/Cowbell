@@ -5,89 +5,14 @@
 <h1>The Synth</h1>
 <form>
 
-<script type="text/javascript">
-<!--
-  $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-//-->
-</script>
+<script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
+<script type="text/javascript" src="/static/js/synth.js"></script>
 
-<!-- LIVE PLAYBLACK SCRIPT AND OBJECT -->
-<script type="text/javascript">
-<!--
-	function play_preview(){
-		var slider_values = [];
-		for (i = 0; i < document.getElementsByClassName('individualslider').length; i++) {
-			slider_values.push(document.getElementById("slider" + i).value);
-		}
-        var slider_string = slider_values.join('');
-		$.getJSON($SCRIPT_ROOT + "/preview", {
-            param_send: slider_string
-        }, function(data){
-        var audio_source = data.previewname
-		document.getElementById('preview_audio').src = audio_source;
-		preview_audio.play();
-	})}
-	window.addEventListener("DOMContentLoaded", function(event) {
-		document.getElementById("play_button").addEventListener("click", play_preview);
-	})
-//-->
-</script>
-<script type="text/javascript">
-<!--
-	window.addEventListener("DOMContentLoaded", function(event) {
-		document.getElementById("stop_button").addEventListener("click", stop_preview);
-	});
-	function stop_preview(){
-		preview_audio.pause();
-		preview_audio.currentTime = 0;
-	}
-//-->
-</script>
 	<input type="button" value="Play" class="controlbuttons" id="play_button"/>
 	<input type="button" value="Stop" class="controlbuttons" id="stop_button"/>
 </form>
 <audio id="preview_audio" src="../static/song_previews/dummy.wav" ></audio>
-
-<!-- Link button script -->
-<script type="text/javascript">
-<!--
-    	function linkNote(linkButton) {
-		console.log("changed" + linkButton);
-	};
-	window.addEventListener("DOMContentLoaded", function(event) {
-	for (var i = 0; i < document.getElementsByClassName('synthbuttons').length; i++) {
-        	console.log(i)
-			document.getElementById("linkbutton" + i).addEventListener('change', function() {
-    if(this.checked) {
-        console.log(this.id)
-        var slider_number = Number(this.id.replace("linkbutton", ""))
-        var value_to_place = document.getElementById("slider" + slider_number).value
-        document.getElementById("slider" + (slider_number + 1)).value = value_to_place
-        document.getElementById("slider" + (slider_number + 1)).disabled = true
-        
-    } else {
-        console.log(this.id)
-        var slider_number = Number(this.id.replace("linkbutton", ""))
-        document.getElementById("slider" + (slider_number + 1)).disabled = false
-    }
-})
-		}
-	});
-//-->
-</script>
-<script>
-<!--
-$('#synthform').submit(function() {
-  for (var i = 0; i < document.getElementsByClassName("synthbuttons").length; i++) {
-  if (document.getElemtById("linkbutton" + i).checked) {
-      document.getElementById("linkbutton" + i + "Hidden").disabled = true;
-  }
-  };
-  for (var i = 0; i < document.getElementsByClassName("individualslider").length; i++) {
-      document.getElemtById("slider" + i).disabled = false
-}});
-//-->
-</script>
+<h1>WHY ARE YOU HERE WE AREN'T USING THIS PAGE ANYMORE</h1>
 <!-- Slider GUI -->
 <form id="synthform" action="/exported" method="POST">
 	<div id="sliders">
@@ -104,7 +29,7 @@ $('#synthform').submit(function() {
 		{% endfor %}
 	</div>
 
-	<input type="submit" name="exporttowav" value="Export to WAV">
+	<input type="submit" name="exporttowav" value="Export Project">
 </form>
 
 {% endblock %}

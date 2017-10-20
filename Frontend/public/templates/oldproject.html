@@ -4,20 +4,23 @@
 
 <div id="oldprojectwrapper">
 	<div id="uploadfile">
-		<h2 style="text-align: center;">Upload a .cowbell File</h2>
-		<form action="{{ url_for('uploader_file') }}" method="POST" enctype="multipart/form-data" style="margin: 0 auto;width:300px;">
-		    <input type="file" name="file" style="width:200px;float:left;" />
-		    <input type="submit" style="width:80px;float:left;" value="Upload" />
-		</form>
+		<div style="padding:0;margin:0;">
+			<h2 style="text-align: center;">Upload a .cowbell File</h2>
+			<form action="{{ url_for('uploader_file') }}" method="POST" enctype="multipart/form-data" style="margin: 0 auto;width:300px;width:100%;">
+			    <input type="file" name="file" style="width:200px;float:left;" />
+			    <input type="submit" style="width:80px;float:left;" value="Upload" />
+			</form>
+		</div>
 	</div>
 
 	<div id="enteruid">
-		<h2 style="text-align: center;">Enter a UID</h2>
-		<form action="{{ url_for('userprojects') }}" method="POST" style="margin:0 auto; width:300px;">
-			<input type="text" name="uid" style="width:200px;">
-			<input type="submit" name="uidsubmit" style="width:80px;">
-		</form>
-
+		<div style="padding:0;margin:0;width:100%;">
+			<h2 style="text-align: center;">Enter a UID</h2>
+			<form action="{{ url_for('userprojects') }}" method="POST" style="margin:0 auto; width:300px;">
+				<input type="text" name="uid" style="width:150px;margin:0;">
+				<input type="submit" name="uidsubmit" style="width:80px;margin:0;">
+			</form>
+		</div>
 	</div>
 </div>
 

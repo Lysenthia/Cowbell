@@ -1,3 +1,4 @@
+//Live Playback Script
 function play_preview(){
 	var slider_values = [];
 	for (i = 0; i < document.getElementsByClassName('individualslider').length; i++) {
@@ -25,6 +26,8 @@ function stop_preview(){
 	preview_audio.currentTime = 0;
 }
 
+
+// Link Button Script
 function linkNote(linkButton) {
 	console.log("changed" + linkButton);
 };

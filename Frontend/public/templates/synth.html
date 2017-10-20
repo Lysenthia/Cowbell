@@ -18,7 +18,11 @@
 	<div id="sliders">
 		{% for i in range(notes|int) %}
 		<div class="individualslider">
-			<input type="range" orient="vertical" step="1" max="7" min="0" value="0" style="padding: 0 2.3%;" name="slider{{i}}" id="slider{{i}}"/>
+			{% if notes_no != None %}
+				<input type="range" orient="vertical" step="1" max="7" min="0" value={{values_to_set[i]}} style="padding: 0 2.3%;" name="slider{{i}}" />
+			{% else %}
+				<input type="range" orient="vertical" step="1" max="7" min="0" value="0" style="padding: 0 2.3%;" name="slider{{i}}" id="slider{{i}}"/>
+			{% endif %}
 			<!-- Synth Buttons -->
 			{% if i != notes|int - 1 %}
 			<input type="hidden" value="0" class="synthbuttonsHidden" name="linkbutton{{i}}" id="linkbutton{{i}}Hidden" title="Link notes together to create longer notes" />
