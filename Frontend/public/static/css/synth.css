@@ -1,8 +1,16 @@
 /* SLIDER SYNTH INTERFACE STYLES */
 
+#controls {
+    display: flex;
+    width: 80%;
+    margin: 0 auto;
+    padding: 0;
+}
+
 .controlbuttons {
-	width: 50%;
-	float:left; 
+	/*width: 20%;*/
+    order: 1;
+    align-self: center;
 }
 
 #synthform {
@@ -82,4 +90,8 @@ input[type=range][orient=vertical] {
 .synthbuttons {
 	width: 50px;
 	display: inherit;
+}
+
+#projectinfo {
+    text-align: center;
 }

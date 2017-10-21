@@ -108,6 +108,6 @@ def list_projects(DB_NAME, DB_DIRECTORY, UID):
     db.close()
     return projects
 
-#print(open_project("database.db", "server_side_storage", "thisistheuidomg12345", 3))
+#print(open_project("cloud_save.db", "public/static/db", "thisismyuid", 1)[0][1])
 
 #save_project("database.db", "server_side_storage", "thisistheuidomg12345", 3, "yser 1's cool project", "oldsongnotes")

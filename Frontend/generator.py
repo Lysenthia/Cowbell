@@ -2,13 +2,14 @@ class Song:
         
     #   REMEMBER TO ADD NOTE LINKING TO JSON
 
-    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='dummy', author_name='Anon', outfile_name=None, cloud_db_pos=None):
+    def __init__(self, notes_to_play='C4C4C5C5B4G4A4B4C5C4C4A4A4G4G4G4G4', note_linking='dummy', author_name='Anon', project_name='My Project', outfile_name=None, cloud_db_pos=None):
         """ Constructs the song object """
         import datetime
         self.cloud_db_pos = cloud_db_pos
         self.CROSSFADE_LENGTH = 50
         self.UNIT_LENGTH = 2
         self.notes_to_play = notes_to_play
+        self.project_name = project_name
         self.creation_date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
         self.DB_DIRECTORY = 'database_outfiles/'
         self.WAV_DIRECTORY = 'wav_outfiles/'

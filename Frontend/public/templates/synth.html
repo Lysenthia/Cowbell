@@ -4,13 +4,19 @@
 
 <h1>The Synth</h1>
 
+{% if project_data != None %}
+	<p id="projectinfo"><span style="font-weight:bold;">{{ project_data[0][4] }}</span> created by {{ project_data[0][2] }} on {{ project_data[0][3] }}</p>
+{% endif %}
+
 <script type="text/javascript" src="/static/js/synth.js"></script>
 <script type="text/javascript">$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};</script>
 
-<form>
-	<input type="button" value="Play" class="controlbuttons" id="play_button"/>
-	<input type="button" value="Stop" class="controlbuttons" id="stop_button"/>
-</form>
+	<form id="controls">
+		<input type="button" value="Play" class="controlbuttons" id="play_button"/>
+		<input type="button" value="Stop" class="controlbuttons" id="stop_button"/>
+	</form>
+
+
 <audio id="preview_audio" src="../static/song_previews/dummy.wav" ></audio>
 
 <!-- Slider GUI -->
@@ -33,7 +39,7 @@
 		{% endfor %}
 	</div>
 
-	<input type="submit" name="exporttowav" value="Export Project" >
+	<input type="submit" name="exporttowav" value="Export Project" style="margin:0 auto;">
 </form>
 
 {% endblock %}
