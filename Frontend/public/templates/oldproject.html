@@ -20,6 +20,9 @@
 				<input type="text" name="uid" style="width:150px;margin:0;">
 				<input type="submit" name="uidsubmit" style="width:80px;margin:0;">
 			</form>
+			{% if error %}
+				<p class="error">{{ error }}</p>
+			{% endif %}
 		</div>
 	</div>
 </div>

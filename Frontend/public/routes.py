@@ -123,12 +123,16 @@ def userprojects():
 		cursor = db.cursor()
 		cursor.execute("SELECT author_name FROM users WHERE UID = ?",(uid,))
 		author_name = cursor.fetchall()
-		author_name = author_name[0][0]
-		projects = cloud_save.list_projects(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
-		print(type(uid))
-		print(projects)
-		print(type(author_name))
-		return render_template("projects.html", author=author_name, projects=projects, uid=uid)
+		if author_name == []:
+			error = "PLease enter a valid UID"
+			return render_template('oldproject.html', error=error)
+		else:
+			author_name = author_name[0][0]
+			projects = cloud_save.list_projects(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
+			print(type(uid))
+			print(projects)
+			print(type(author_name))
+			return render_template("projects.html", author=author_name, projects=projects, uid=uid)
 	else:
 		return "Go back, you didn't enter a UID!"
 
