@@ -4,10 +4,15 @@
 
 <h1>Welcome {{ author }}</h1>
 
+<form action="{{ url_for('manageaccount') }}" method="POST">
+	<input type="hidden" name="user_ID" value="{{ projects[0][2] }}">
+	<input type="submit"  name="manageaccountbutton" value="Manage Account"></button>
+</form>
+
+<h2>Your Projects</h2>
 <ul id="projects">
 {% for tuple in projects %}
 <li class="project">
-	{{ tuple }}
 	<form method="POST" action="get_project/{{ uid }}">
 		<input type="hidden" value="{{ tuple[2] }}" name="project_ID">
 		<button type="submit">{{ tuple[1] }}</button>

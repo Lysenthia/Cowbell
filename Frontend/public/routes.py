@@ -132,6 +132,13 @@ def userprojects():
 	else:
 		return "Go back, you didn't enter a UID!"
 
+@website.route('/manageaccount', methods = ['GET', 'POST'])
+def manageaccount():
+	if request.method == 'POST':
+		user_ID = request.form.get('user_ID')
+
+		return render_template("manageaccount.html", user_ID=user_ID)
+
 
 
 

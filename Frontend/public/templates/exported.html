@@ -22,6 +22,17 @@ Legacy Download Options
 </script>
 <h2 style="text-align: center;">Your song has been exported and is ready to download or save.</h2>
 <div id="input_area" align="center">
+
+	<p>Download your project as a .cowbell file.</p>
+	<form class="exportedgrid" method="POST" action="{{ url_for('downloader') }}">
+		<label for='download_cb_btn' id='cb_download_label' class='p2label'>Download Cowbell File for storing the song locally:</label>
+		<input type="hidden" value="{{ jsondata }}" name="returnedjson">
+		<input type="hidden" value="{{ databasename }}" name="databasename">
+		<button type="submit" id='download_cb_btn' class='grid_element'>Download Cowbell File</button>
+	</form>
+	
+
+	<p>Export your project as an audio file.</p>
 	<form class="exportedgrid" name="fileformatdownload" method='POST' action="{{ url_for('downloader') }}">
 		<label for='combobox' class='grid_element' id='format_label'>File Format:</label>
 		<select id='combobox' class='grid_element' name="audioformats" title="CHOOSE SOMETHING HENRY" required>
@@ -33,23 +44,20 @@ Legacy Download Options
 		<button id='format_download_btn' type="submit" class='grid_element'>Download Audio File</button>
 	</form>
 
-	<form class="exportedgrid" method="POST">
-		<label for='uid_input' class='grid_element' id='uid_label'>Enter your id number:</label>
-		<input type="text" name="uid_input" class='grid_element'></input>
-		<button type="submit" id='save_btn' class='grid_element'>Save to cloud</button>
-	</form>
-
+	<p>Create a new account to save your projects in the cloud.</p>
 	<form class="exportedgrid" method="POST">
 		<label for='uid_input' class='p2label' id='get_uid_label'>Don't have an id number? Get one now:</label>
 		<button type="button" id='get_uid' class='grid_element'>Get your id number</button>
 	</form>
 
-	<form class="exportedgrid" method="POST" action="{{ url_for('downloader') }}">
-		<label for='download_cb_btn' id='cb_download_label' class='p2label'>Download Cowbell File for storing the song locally:</label>
-		<input type="hidden" value="{{ jsondata }}" name="returnedjson">
-		<input type="hidden" value="{{ databasename }}" name="databasename">
-		<button type="submit" id='download_cb_btn' class='grid_element'>Download Cowbell File</button>
-	</form>
+
+
+	<!--	Removed due to adding save to the synth page 	
+	<form class="exportedgrid" method="POST">
+		<label for='uid_input' class='grid_element' id='uid_label'>Enter your id number:</label>
+		<input type="text" name="uid_input" class='grid_element'></input>
+		<button type="submit" id='save_btn' class='grid_element'>Save to cloud</button>
+	</form> -->
 </div>
 
 {% endblock %}
