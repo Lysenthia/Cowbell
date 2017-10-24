@@ -108,6 +108,30 @@ def list_projects(DB_NAME, DB_DIRECTORY, UID):
     db.close()
     return projects
 
+def get_user_data(DB_NAME, DB_DIRECTORY, UID):
+    """ Gets the users data and returns it as a list """
+    if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, UID]):
+        raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
+    db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users WHERE UID=?",(UID,))
+    user_data = cursor.fetchall()
+    db.commit()
+    cursor.close()
+    db.close()
+    return user_data
+
+def change_user_name(DB_NAME, DB_DIRECTORY, UID, name):
+    """ Gets the users data and returns it as a list """
+    if any('drop tables' in var for var in [DB_NAME, DB_DIRECTORY, UID, name]):
+        raise DropTablesError("Drop Tables command detected in input commands - Print Error Message")
+    db = sqlite3.connect('{}/{}'.format(DB_DIRECTORY, DB_NAME))
+    cursor = db.cursor()
+    cursor.execute("UPDATE users SET author_name=? WHERE UID=?",(name,UID,))
+    db.commit()
+    cursor.close()
+    db.close()
+    
 #print(open_project("cloud_save.db", "public/static/db", "thisismyuid", 1)[0][1])
 
 #save_project("database.db", "server_side_storage", "thisistheuidomg12345", 3, "yser 1's cool project", "oldsongnotes")

@@ -2,6 +2,12 @@
 
 {% block content %}
 
-{{ user_ID }}
-
+<h1>Managing {{ user_data[2] }}'s account</h1>
+<p>UID = {{ user_data[1] }}</p>
+Change name:
+<form method="POST" action="">
+   <input type="text" value="{{ user_data[1] }}"></input>
+	<input type="hidden" value="{{ user_data[1] }}" name="uid">
+	<button type="submit">Change Name</button>
+</form>
 {% endblock %}

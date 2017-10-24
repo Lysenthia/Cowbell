@@ -5,7 +5,7 @@
 <h1>Welcome {{ author }}</h1>
 
 <form action="{{ url_for('manageaccount') }}" method="POST">
-	<input type="hidden" name="user_ID" value="{{ projects[0][2] }}">
+	<input type="hidden" name="uid" value="{{ uid }}">
 	<input type="submit"  name="manageaccountbutton" value="Manage Account"></button>
 </form>
 
