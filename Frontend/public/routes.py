@@ -115,6 +115,7 @@ def exported():
 def help():
     return render_template('help.html')
 
+#LIST OF USERS PROJECTS (displays when user logs in)
 @website.route('/projects', methods = ['GET', 'POST'])
 def userprojects():
     if request.method == 'POST':
@@ -267,3 +268,13 @@ def add_project(uid, project_data):
 def get_project_list(uid):
     projects = cloud_save.list_projects(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
     return render_template('project_list.html', projects=projects, uid=uid)
+
+@website.route('/changeuserdata', methods=['GET', 'POST'])
+def changeuserdata():
+	if request.method == 'POST':
+		uid = request.form.get('uid')
+		name = request.form.get('name')
+		cloud_save.change_user_name(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid, name)
+		return redirect('/projects', code=307)
+	else:
+		return "You should be here. Go back!"
