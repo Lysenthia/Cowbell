@@ -35,11 +35,13 @@ def index():
 
 #NEW PROJECT PAGE
 @website.route('/newproject', methods=['GET', 'POST'])
-def newproject():
-    error = None
+def newproject(error=None):
+    if error:
+        return render_template('newproject.html', error=error)
+        
     if request.method == 'POST':
         noteamt = request.form.get('notes')
-        if noteamt == "" or noteamt == "0":
+        if noteamt == "" or not int(noteamt):
             error = "Please enter a non-zero integer."
             return render_template('newproject.html', error=error)
         else:
@@ -55,7 +57,9 @@ def oldproject():
 
 #SYNTH PAGE
 @website.route('/synth/<notes>')#, methods=['GET', 'POST'])
-def synth(notes = None):
+def synth(notes=1):
+    if not isinstance(notes, int) or int(notes) == 0:
+        return redirect('/newproject', error="woaah")
     return render_template('synth.html', notes=notes, notes_no=None, values_to_set=None, project_data=None)
 
 
