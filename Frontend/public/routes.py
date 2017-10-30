@@ -177,6 +177,8 @@ def uploader_file():
         f = request.files['file']
         f.save(secure_filename(f.filename))
         valid, error = valid_cowbell_file(f.filename)
+        if not valid:
+            return redirect('/oldproject')
         song_read = Song()
         song_read.read_from_database(f.filename)
         notes = len(song_read.notes_to_play) / 2
