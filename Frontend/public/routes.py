@@ -11,9 +11,13 @@ from preview_generator import Preview
 import cloud_save
 from flask import jsonify, request
 import os
+import datetime
 import json
 import sqlite3
 from validator import valid_cowbell_file
+import logging
+from logging.handlers import RotatingFileHandler
+
 
 ###########
 #Global Variables Start
@@ -178,6 +182,7 @@ def uploader_file():
         f.save(secure_filename(f.filename))
         valid, error = valid_cowbell_file(f.filename)
         if not valid:
+            os.remove(f.filename)
             return redirect('/oldproject')
         song_read = Song()
         song_read.read_from_database(f.filename)
@@ -290,3 +295,26 @@ def changeuserdata():
 		return redirect('/projects', code=307)
 	else:
 		return "You should be here. Go back!"
+
+###
+#   Error Pages!
+###
+@website.errorhandler(404)
+def page_not_found(e):
+    print()
+    print(e)
+    print()
+    return render_template('404.html'), 404
+
+@website.errorhandler(Exception)
+def all_exception_handler(e):
+    time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
+    print()
+    print(e)
+    print()
+    if not website.debug:
+        website.logger.error("{}: {}".format(time,e))
+        return render_template('error.html')
+    else:
+        return e
+

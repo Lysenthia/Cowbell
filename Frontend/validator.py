@@ -29,8 +29,8 @@ def valid_cowbell_file(filename):
     cursor.execute("""SELECT * FROM song_data WHERE row_id=1""")
     data = cursor.fetchone()
     print(data)
-    if None in data:
-        return False, "Data contains None value(s)"
+    if None or "" in data:
+        return False, "Data contains None or empty value(s)"
     db.commit()
     cursor.close()
     db.close()
