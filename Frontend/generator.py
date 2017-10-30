@@ -74,7 +74,7 @@ class Song:
         cursor = db.cursor()
         cursor.execute('''CREATE TABLE song_data
              (row_id INTEGER PRIMARY KEY, song_notes TEXT, author_name TEXT, creation_date TEXT, project_name TEXT)''')
-        cursor.execute("INSERT INTO song_data VALUES (1,?,?,?,?)",(self.notes_to_play, self.author_name, self.creation_date, self.outfile_name))
+        cursor.execute("INSERT INTO song_data VALUES (1,?,?,?,?)",(self.notes_to_play, self.author_name, self.creation_date, self.project_name))
         db.commit()
         db.close()
         return self.database_name

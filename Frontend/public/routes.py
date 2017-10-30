@@ -13,6 +13,7 @@ from flask import jsonify, request
 import os
 import json
 import sqlite3
+from validator import valid_cowbell_file
 
 ###########
 #Global Variables Start
@@ -58,8 +59,12 @@ def oldproject():
 #SYNTH PAGE
 @website.route('/synth/<notes>')#, methods=['GET', 'POST'])
 def synth(notes=1):
+    try:
+        notes = int(notes)
+    except ValueError:
+        pass
     if not isinstance(notes, int) or int(notes) == 0:
-        return redirect('/newproject', error="woaah")
+        return redirect('/newproject')
     return render_template('synth.html', notes=notes, notes_no=None, values_to_set=None, project_data=None)
 
 
@@ -171,6 +176,7 @@ def uploader_file():
         noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
         f = request.files['file']
         f.save(secure_filename(f.filename))
+        valid, error = valid_cowbell_file(f.filename)
         song_read = Song()
         song_read.read_from_database(f.filename)
         notes = len(song_read.notes_to_play) / 2
@@ -214,7 +220,7 @@ def downloader():
         # Generate the song from the json data
         #    REMEMBER TO ADD NOTE LINKING TO JSON
 
-        song = Song(returnedjson["songdata"], 'dummy', returnedjson["author_name"], returnedjson["outfile_name"], returnedjson["cloud_db_pos"])
+        song = Song(returnedjson["songdata"], 'dummy', returnedjson["author_name"], 'dummy',returnedjson["outfile_name"], returnedjson["cloud_db_pos"])
         
 
         if "audioformats" in request.form:
