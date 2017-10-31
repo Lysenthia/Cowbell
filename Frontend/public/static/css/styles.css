@@ -104,8 +104,12 @@ p {
 }
 
 a {
-	text-decoration: none;
 	display: block;
+}
+
+a:visited {
+    color:#AAAAAA;
+      
 }
 
 .footertext {

@@ -318,3 +318,10 @@ def all_exception_handler(e):
     else:
         return e
 
+@website.errorhandler(500)
+def page_not_found(e):
+    print()
+    print(e)
+    print()
+    return render_template('500.html'), 500
+
