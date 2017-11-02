@@ -6,7 +6,7 @@
 <p>UID = {{ user_data[1] }}</p>
 Change name:
 <form method="POST" action="{{ url_for('changeuserdata') }}">
-   <input type="text" value="{{ user_data[2] }}" name="name"></input>
+   <input type="text" value="{{ user_data[2] }}" name="name" required>
 	<input type="hidden" value="{{ user_data[1] }}" name="uid">
 	<button type="submit">Change Name</button>
 </form>

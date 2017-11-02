@@ -26,6 +26,11 @@ def valid_cowbell_file(filename):
         if not (COLUMN_TYPES[index] == column[2] and COLUMN_NAMES[index] == column[1]):
             return False, "Invalid column layout"
         index += 1
+    cursor.execute("""SELECT * FROM song_data WHERE row_id=1""")
+    data = cursor.fetchone()
+    print(data)
+    if None or "" in data:
+        return False, "Data contains None or empty value(s)"
     db.commit()
     cursor.close()
     db.close()
