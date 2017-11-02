@@ -44,7 +44,13 @@ Legacy Download Options
 		<button id='format_download_btn' type="submit" class='grid_element'>Download Audio File</button>
 	</form>
 
-	<p>Create a new account to save your projects in the cloud.</p>
+	<p>Save your project to the cloud.</p>
+	<form class="exportedgrid" name="savetocloud" method='POST' action="{{ url_for('downloader') }}">
+		<label for='combobox' class='grid_element' id='uidenter_label'>Paste your UID here:</label>
+		<input type="text" class='grid_element' name="audioformats"></input>
+		<input type="hidden" value="{{ jsondata }}" name="returnedjson">
+		<button id='format_download_btn' type="submit" class='grid_element'>Save Project</button>
+	</form>
 	<form class="exportedgrid" method="POST">
 		<label for='uid_input' class='p2label' id='get_uid_label'>Don't have an id number? Get one now:</label>
 		<button type="button" id='get_uid' class='grid_element'>Get your id number</button>

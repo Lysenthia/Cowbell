@@ -67,14 +67,7 @@ def synth(notes=1):
         return redirect('/newproject')
     return render_template('synth.html', notes=notes, notes_no=None, values_to_set=None, project_data=None)
 
-
-#DISPLAYS WHEN WAV EXPORTED
-@website.route('/exported', methods=['GET', 'POST'])
-def exported():
-    # if "audioformats" in request.form:
-    #     audioformat = request.form.get("audioformats")
-    #     return redirect('downloader/audiofile/{}'.format(audioformat))
-
+def getNotes(rawSliderValues):
     #Dictionary of the slider values that correspond to the note values
     noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
     sliderValues = {}
@@ -83,8 +76,7 @@ def exported():
     linked_notes_dict = {}
     linked_note_keys = []
     linked_notes = []
-    #Get the submitted slider values from the previous page
-    rawSliderValues = request.values if request.method == "GET" else request.values
+    
     #Extract the data from rawSliderValues and add it to sliderValues (Also get rid of "exporttowav")
     print(rawSliderValues)
     for key in rawSliderValues:
@@ -109,6 +101,18 @@ def exported():
     #Convert noteValues to string
     sNoteValues = ''.join(noteValues)
     str_linked_notes = ''.join(linked_notes)
+    return([sNoteValues, str_linked_notes])
+
+#DISPLAYS WHEN WAV EXPORTED
+@website.route('/exported', methods=['GET', 'POST'])
+def exported():
+    #Get the submitted slider values from the previous page
+    rawSliderValues = request.values if request.method == "GET" else request.values
+
+    notes = getNotes(rawSliderValues)
+    sNoteValues = notes[0]
+    str_linked_notes = notes[1]
+
     jsondata = json.dumps({"songdata":sNoteValues, 
                         "linked_notes":str_linked_notes,
                         "author_name":'Anon', 
@@ -240,6 +244,10 @@ def downloader():
 
             databasename = song.write_to_database()
             return redirect('/return-db/{}'.format(databasename))
+
+        elif "uid" in request.form:
+            
+            return redirect(url_for("/projects"))
     return "You shouldn't be here. GO BACK!"
 
 @website.route('/get_uid')
@@ -285,6 +293,6 @@ def changeuserdata():
 		uid = request.form.get('uid')
 		name = request.form.get('name')
 		cloud_save.change_user_name(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid, name)
-		return redirect('/projects', code=307)
+		return redirect('/projects', code=307) #Code 307 for post request
 	else:
 		return "You should be here. Go back!"
