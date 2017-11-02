@@ -21,6 +21,12 @@
 
 <!-- Slider GUI -->
 <form id="synthform" action="/exported" method="POST">
+	<div id="finishbuttons">
+		{% if project_data != None %}
+				<input type="button" name="saveproject" value="Save Project" id="exportbutton">
+		{% endif %}
+		<input type="submit" name="exporttowav" value="Export Project" id="exportbutton">
+	</div>
 	<div id="sliders">
 		{% for i in range(notes|int|abs) %}
 		<div class="individualslider">
@@ -38,8 +44,6 @@
 		</div>
 		{% endfor %}
 	</div>
-
-	<input type="submit" name="exporttowav" value="Export Project" style="margin:0 auto;">
 </form>
 
 {% endblock %}

@@ -2,7 +2,7 @@
 
 #controls {
     display: flex;
-    width: 80%;
+    width: 70%;
     margin: 0 auto;
     padding: 0;
 }
@@ -14,12 +14,23 @@
 }
 
 #synthform {
-	padding-top: 50px;
+	padding-top: 0;
 }
 
 #sliders {
 	overflow: auto;
 	white-space: nowrap;
+}
+
+#finishbuttons {
+    text-align:right;
+    width: 70%;
+    margin:0 auto;
+}
+
+#exportbutton {
+    margin:0 auto; 
+    text-align: right;
 }
 
 .individualslider{

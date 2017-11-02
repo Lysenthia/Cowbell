@@ -26,6 +26,13 @@ function stop_preview(){
 	preview_audio.currentTime = 0;
 }
 
+// Save Button Script
+function saveRedirect() {
+	
+}
+window.addEventListener("DOMContentLoaded", function(event) {
+	document.getElementById("savebutton").addEventListener("click", stop_preview);
+});
 
 // Link Button Script
 function linkNote(linkButton) {

@@ -71,6 +71,8 @@ def synth(notes=1):
         return redirect('/newproject')
     return render_template('synth.html', notes=notes, notes_no=None, values_to_set=None, project_data=None)
 
+# Input raw slider values as json from synth page and return a list containing the note 
+# values as a string and linked notes.
 def getNotes(rawSliderValues):
     #Dictionary of the slider values that correspond to the note values
     noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
@@ -154,6 +156,7 @@ def userprojects():
     else:
         return "Go back, you didn't enter a UID!"
 
+# Displays when a user requests to change their name or other info attached to their UID
 @website.route('/manageaccount', methods = ['GET', 'POST'])
 def manageaccount():
     if request.method == 'POST':
@@ -168,7 +171,7 @@ def manageaccount():
 
 
 ##
-#    BACKEND ROUTES (downloading and uploading files, play and stop preview in synth)
+#    BACKEND ROUTES (downloading and uploading files, play and stop preview in synth, database management)
 ##
 
 # When a user is directed to this page, it downloads the file they request from the output directory
@@ -253,7 +256,7 @@ def downloader():
             return redirect('/return-db/{}'.format(databasename))
 
         elif "uid" in request.form:
-            
+            uid = request.form.get("uid")
             return redirect(url_for("/projects"))
     return "You shouldn't be here. GO BACK!"
 
@@ -283,11 +286,6 @@ def get_project(uid):
     else:
         return "You shouldn't be here! Go back and select a project."
 
-@website.route('/add_project/<uid>/<project_data>')
-def add_project(uid, project_data):
-    
-    cloud_save.add_project()
-    return None
 
 @website.route('/get_projects/<uid>')
 def get_project_list(uid):
