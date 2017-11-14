@@ -17,6 +17,7 @@ import sqlite3
 from validator import valid_cowbell_file
 import logging
 from logging.handlers import RotatingFileHandler
+import atexit
 
 
 ###########
@@ -71,8 +72,8 @@ def synth(notes=1):
         return redirect('/newproject')
     return render_template('synth.html', notes=notes, notes_no=None, values_to_set=None, project_data=None)
 
-# Input raw slider values as json from synth page and return a list containing the note 
-# values as a string and linked notes.
+
+#DISPLAYS WHEN WAV EXPORTED
 def getNotes(rawSliderValues):
     #Dictionary of the slider values that correspond to the note values
     noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
@@ -84,10 +85,8 @@ def getNotes(rawSliderValues):
     linked_notes = []
     
     #Extract the data from rawSliderValues and add it to sliderValues (Also get rid of "exporttowav")
-    print(rawSliderValues)
     for key in rawSliderValues:
         if "slider" in key:
-            print(key)
             temp_key = int(key[6:])
             sliderValues[temp_key] = rawSliderValues[key]
         elif "link" in key:
@@ -97,7 +96,6 @@ def getNotes(rawSliderValues):
     #Create a sorted list of the keys from slider values
     sliderKeys = sorted(sliderValues)
     linked_note_keys = sorted(linked_notes_dict)
-    print(sliderKeys)
     #  Get each note value from the noteDict in order using the sorted sliderKeys 
     #  list to call values from sliderValues in the original order
     for item in sliderKeys:
@@ -124,11 +122,8 @@ def exported():
                         "author_name":'Anon', 
                         "outfile_name":None, 
                         "cloud_db_pos":None})
-    print("JSON: ".format(jsondata))
-    print(type(jsondata))
     #Return the exported page and attach the filename of the exported WAV file
     return render_template('exported.html', jsondata=jsondata)
-
 #HELP PAGE
 @website.route('/help')
 def help():
@@ -139,8 +134,6 @@ def help():
 def userprojects():
     if request.method == 'POST':
         uid = request.form.get('uid')
-        db = sqlite3.connect('{}/{}'.format(SERVER_DB_DIRECTORY, SERVER_DB_NAME))
-        cursor = db.cursor()
         cursor.execute("SELECT author_name FROM users WHERE UID = ?",(uid,))
         author_name = cursor.fetchall()
         if author_name == []:
@@ -148,30 +141,23 @@ def userprojects():
             return render_template('oldproject.html', error=error)
         else:
             author_name = author_name[0][0]
-            projects = cloud_save.list_projects(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
-            print(type(uid))
-            print(projects)
-            print(type(author_name))
+            projects = cloud_save.list_projects(db, cursor, uid)
             return render_template("projects.html", author=author_name, projects=projects, uid=uid)
     else:
         return "Go back, you didn't enter a UID!"
 
-# Displays when a user requests to change their name or other info attached to their UID
 @website.route('/manageaccount', methods = ['GET', 'POST'])
 def manageaccount():
     if request.method == 'POST':
         UID = request.form.get('uid')
-        user_data = cloud_save.get_user_data(SERVER_DB_NAME, SERVER_DB_DIRECTORY, UID)[0]
-        print()
-        print(user_data)
-        print()
+        user_data = cloud_save.get_user_data(db, cursor, UID)[0]
         return render_template("manageaccount.html", UID=UID, user_data=user_data)
 
 
 
 
 ##
-#    BACKEND ROUTES (downloading and uploading files, play and stop preview in synth, database management)
+#    BACKEND ROUTES (downloading and uploading files, play and stop preview in synth)
 ##
 
 # When a user is directed to this page, it downloads the file they request from the output directory
@@ -196,7 +182,6 @@ def uploader_file():
         notes = len(song_read.notes_to_play) / 2
         notes_to_set = [song_read.notes_to_play[i:i+2] for i in range(0, len(song_read.notes_to_play) - 1, 2)]
         values_to_set = [noteDict[i] for i in notes_to_set]
-        print(values_to_set)
     return render_template('synth.html', notes=notes, values_to_set=values_to_set, project_data=None)
 
 @website.route('/return-db/<databasename>')
@@ -209,7 +194,6 @@ def return_db(databasename):
 @website.route('/preview')
 def preview_generator():
     '''Constructs a WAV file for preview on the synth page'''
-    print("IN PREVIEW")
     note_nums_temp = request.args.get('param_send', '00000000')
     note_nums = list(note_nums_temp)
     noteDict = {0:"C4", 1:"D4", 2:"E4", 3:"F4", 4:"G4", 5:"A4", 6:"B4", 7:"C5"}
@@ -226,15 +210,13 @@ def preview_generator():
 def downloader():
     '''Manages the download of zips'''
     if request.method =="POST":
-        returnedjson = json.loads(request.form.get("returnedjson"))
-        for i in returnedjson:
-            print("value{}".format(i))
-            print(i)
+        returnedjson = request.form.get("returnedjson")
+        returneddata = json.loads(returnedjson)
         
         # Generate the song from the json data
         #    REMEMBER TO ADD NOTE LINKING TO JSON
 
-        song = Song(returnedjson["songdata"], 'dummy', returnedjson["author_name"], 'dummy',returnedjson["outfile_name"], returnedjson["cloud_db_pos"])
+        song = Song(returneddata["songdata"], 'dummy', returneddata["author_name"], 'dummy',returneddata["outfile_name"], returneddata["cloud_db_pos"])
         
 
         if "audioformats" in request.form:
@@ -257,26 +239,35 @@ def downloader():
 
         elif "uid" in request.form:
             uid = request.form.get("uid")
-            return redirect(url_for("/projects"))
+            user_data = cloud_save.get_user_data(db, cursor, uid)
+            if user_data is None:
+                return render_template('exported.html', jsondata=returnedjson, message="User not found")
+            else:
+                user_ID = user_data[0]
+            success = cloud_save.add_project(db, cursor, user_ID, song.notes_to_play, 
+                                             song.creation_date, song.project_name)
+            if success:
+                return render_template('exported.html', jsondata=returnedjson, message="Song saved successfully")
+            else:
+                return render_template('exported.html', jsondata=returnedjson, message="Song could not be saved")
     return "You shouldn't be here. GO BACK!"
 
 @website.route('/get_uid')
 def get_uid():
     '''Generates a new UID and checks if its already in the database'''
     import uuid
-    used_uids = cloud_save.get_uids(SERVER_DB_NAME, SERVER_DB_DIRECTORY)
+    used_uids = cloud_save.get_uids(db, cursor)
     uid = uuid.uuid4().hex
     while uid in used_uids:
         uid = uuid.uuid4().hex
-    cloud_save.add_user(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
-    print(uid)
+    cloud_save.add_user(db, cursor, uid)
     return jsonify(uid=uid)
 
 @website.route('/get_project/<uid>', methods=['GET', 'POST'])
 def get_project(uid):
     if request.method == "POST":
         project_ID = request.form.get("project_ID")
-        project_data = cloud_save.open_project(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid, int(project_ID))
+        project_data = cloud_save.open_project(db, cursor, uid, int(project_ID))
         noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
         song_read = Song(notes_to_play=project_data[0][1], author_name=project_data[0][2], project_name=project_data[0][4], cloud_db_pos=project_data[0][0])
         notes = len(song_read.notes_to_play) / 2
@@ -286,10 +277,15 @@ def get_project(uid):
     else:
         return "You shouldn't be here! Go back and select a project."
 
+@website.route('/add_project/<uid>/<project_data>')
+def add_project(uid, project_data):
+    
+    cloud_save.add_project()
+    return None
 
 @website.route('/get_projects/<uid>')
 def get_project_list(uid):
-    projects = cloud_save.list_projects(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid)
+    projects = cloud_save.list_projects(db, cursor, uid)
     return render_template('project_list.html', projects=projects, uid=uid)
 
 @website.route('/changeuserdata', methods=['GET', 'POST'])
@@ -297,8 +293,8 @@ def changeuserdata():
 	if request.method == 'POST':
 		uid = request.form.get('uid')
 		name = request.form.get('name')
-		cloud_save.change_user_name(SERVER_DB_NAME, SERVER_DB_DIRECTORY, uid, name)
-		return redirect('/projects', code=307) #Code 307 for post request
+		cloud_save.change_user_name(db, cursor, uid, name)
+		return redirect('/projects', code=307)
 	else:
 		return "You should be here. Go back!"
 
@@ -307,17 +303,11 @@ def changeuserdata():
 ###
 @website.errorhandler(404)
 def page_not_found(e):
-    print()
-    print(e)
-    print()
     return render_template('404.html'), 404
 
 @website.errorhandler(Exception)
 def all_exception_handler(e):
     time = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S-%f")
-    print()
-    print(e)
-    print()
     if not website.debug:
         website.logger.error("{}: {}".format(time,e))
         return render_template('error.html')
@@ -325,9 +315,15 @@ def all_exception_handler(e):
         return e
 
 @website.errorhandler(500)
-def page_not_found(e):
-    print()
-    print(e)
-    print()
+def unhandled_error(e):
     return render_template('500.html'), 500
 
+@atexit.register
+def close_database():
+    cloud_save.close_database()
+
+@website.before_first_request
+def open_database():
+    global cursor
+    global db
+    db, cursor = cloud_save.open_database(SERVER_DB_NAME, SERVER_DB_DIRECTORY)

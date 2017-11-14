@@ -47,7 +47,7 @@ Legacy Download Options
 	<p>Save your project to the cloud.</p>
 	<form class="exportedgrid" name="savetocloud" method='POST' action="{{ url_for('downloader') }}">
 		<label for='combobox' class='grid_element' id='uidenter_label'>Paste your UID here:</label>
-		<input type="text" class='grid_element' name="audioformats"></input>
+		<input type="text" class='grid_element' name="uid"></input>
 		<input type="hidden" value="{{ jsondata }}" name="returnedjson">
 		<button id='format_download_btn' type="submit" class='grid_element'>Save Project</button>
 	</form>
@@ -56,7 +56,9 @@ Legacy Download Options
 		<button type="button" id='get_uid' class='grid_element'>Get your id number</button>
 	</form>
 
-
+    {% if message %}
+    	<p class="error">{{ message }}</p>
+    {% endif %}
 
 	<!--	Removed due to adding save to the synth page 	
 	<form class="exportedgrid" method="POST">
