@@ -52,14 +52,6 @@ class Song:
         combinedAudio.export(outfile_name, format=fileformat, tags={'artist': self.author_name})
         self.garbage_gen_notes()
         return outfile_name
-    
-    def garbage(self, fileformat):
-        """ Deletes the file (Hopefully this will be automated one day) """
-        import os
-        if fileformat == "cowbell":
-            os.remove("{}{}".format(self.DB_DIRECTORY, self.database_name))    
-        else:
-            os.remove("{}{}".format(self.WAV_DIRECTORY, self.outfile))
         
     def garbage_gen_notes(self):
         """ Removes any notes made during son compilation """

@@ -1,5 +1,5 @@
 
 *.pyc
 Frontend/public/static/images/Thumbs.db
-*.pyc
+__pycache__
 **/Thumbs.db
