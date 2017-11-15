@@ -1,1 +1,0 @@
-XCOPY .\pydub-0.19.0\pydub C:\Python34\Lib /E
