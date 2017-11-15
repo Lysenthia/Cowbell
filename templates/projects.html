@@ -13,7 +13,8 @@
 <ul id="projects">
 {% for tuple in projects %}
 <li class="project">
-	<form method="POST" action="get_project/{{ uid }}">
+	<form method="POST" action="{{ url_for('get_project') }}">
+    	<input type="hidden" value="{{ uid }}" name="UID">
 		<input type="hidden" value="{{ tuple[2] }}" name="project_ID">
 		<button type="submit">{{ tuple[1] }}</button>
 		<!-- <a href="get_project/{{ uid }}/{{ tuple[1] }}" class="projectlink">{{ tuple[1] }}</a> -->

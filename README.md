@@ -10,4 +10,4 @@ So basically it runs by running the batch file inside the Frontend folder and if
 * [Pydub](https://github.com/jiaaro/pydub)
 * [FFmpeg](https://www.ffmpeg.org/) or [Libav](https://www.libav.org/) (These allow pydub to make non-wav files)
 
-If all goes well, you should see the site! All code we're working towards is located inside the Frontend folder, the Backend_Experimentation is just for us to test and build features before adding them to the main website.
+This fork is intended for use on a server

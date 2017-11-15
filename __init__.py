@@ -121,13 +121,12 @@ def help_page():
 def userprojects():
     if request.method == 'POST':
         uid = request.form.get('uid')
-        g.cursor.execute("SELECT author_name FROM users WHERE UID = ?",(uid,))
-        author_name = g.cursor.fetchall()
-        if author_name == []:
-            error = "UID not found"
+        user_data = cloud_save.get_user_data(g.db, g.cursor, uid)
+        if user_data == []:
+            error = "UID does not exist"
             return render_template('oldproject.html', error=error)
         else:
-            author_name = author_name[0][0]
+            author_name = user_data[2]
             projects = cloud_save.list_projects(g.db, g.cursor, uid)
             return render_template("projects.html", author=author_name, projects=projects, uid=uid)
     else:
@@ -263,10 +262,15 @@ def get_uid():
     cloud_save.add_user(g.db, g.cursor, uid)
     return jsonify(uid=uid)
 
-@website.route('/get_project/<uid>', methods=['GET', 'POST'])
-def get_project(uid):
+@website.route('/get_project', methods=['GET', 'POST'])
+def get_project():
+    print()
+    print(request.method)
+    print(request.form)
+    print()
     if request.method == "POST":
         project_ID = request.form.get("project_ID")
+        uid = request.form.get("UID")
         project_data = cloud_save.open_project(g.db, g.cursor, uid, int(project_ID))
         noteDict = {"C4":0, "D4":1, "E4":2, "F4":3, "G4":4, "A4":5, "B4":6, "C5":7}
         song_read = Song(notes_to_play=project_data[0][1], author_name=project_data[0][2], project_name=project_data[0][4], cloud_db_pos=project_data[0][0])
@@ -276,17 +280,6 @@ def get_project(uid):
         return render_template('synth.html', notes=notes, values_to_set=values_to_set, user_song=True, project_data=project_data)
     else:
         return "You shouldn't be here! Go back and select a project."
-
-@website.route('/add_project/<uid>/<project_data>')
-def add_project(uid, project_data):
-    
-    cloud_save.add_project()
-    return None
-
-@website.route('/get_projects/<uid>')
-def get_project_list(uid):
-    projects = cloud_save.list_projects(g.db, g.cursor, uid)
-    return render_template('project_list.html', projects=projects, uid=uid)
 
 @website.route('/changeuserdata', methods=['GET', 'POST'])
 def changeuserdata():
