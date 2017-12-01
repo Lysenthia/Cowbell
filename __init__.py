@@ -122,7 +122,7 @@ def userprojects():
     if request.method == 'POST':
         uid = request.form.get('uid')
         user_data = cloud_save.get_user_data(g.db, g.cursor, uid)
-        if user_data == []:
+        if user_data is None:
             error = "UID does not exist"
             return render_template('oldproject.html', error=error)
         else:
